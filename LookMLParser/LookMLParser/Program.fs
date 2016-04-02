@@ -114,9 +114,36 @@ let parseThreeDigits =
 
     mapP transformTuple tupleParser
 
+let returnP x = 
+    let innerFn input = 
+        Success (x, input)
+    Parser innerFn
+
+let applyP fP xP = 
+    (fP .>>. xP)
+    |> mapP (fun (f,x) -> f x )
+
+let ( <*> ) = applyP
+
+let lift2 f xP yP = 
+    returnP f <*> xP <*> yP
+
+let addP = 
+    lift2 (+)
+
+let rec sequence parserList = 
+    let cons head tail = head::tail 
+    let consP = lift2 cons
+
+    match parserList with 
+        | [] -> returnP []
+        | head::tail ->
+            consP head (sequence tail)
+
+let parseDigits = sequence [parseDigit ; parseDigit ; parseDigit]
 
 [<EntryPoint>]
 let main argv = 
-    printfn "%A" (run parseThreeDigits "123A")
+    printfn "%A" (run parseDigits "12345678")
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
