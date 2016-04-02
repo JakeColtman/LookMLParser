@@ -81,16 +81,14 @@ let ( .>>>. ) = orElse
 let choice listOfParsers = 
     List.reduce ( .>>>. ) listOfParsers
 
-let parseD = parse_character 'D'
-let parseE = parse_character 'E'
+let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
 
-let parseDthenE = parseD .>>. parseE
-let parseDorE = parseD .>>>. parseE
+let letterParsers = letters |> Array.map parse_character |> Array.toList 
 
-let parserDthenEthenDorE = parseDthenE .>>. parseDorE
+let parseAnyUpperCaseLetter = choice letterParsers
 
 [<EntryPoint>]
 let main argv = 
-    printfn "%A" (run parserDthenEthenDorE  "DEDEllo world")
+    printfn "%A" (run parseAnyUpperCaseLetter "Hello")
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
