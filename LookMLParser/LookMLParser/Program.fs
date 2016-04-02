@@ -14,21 +14,25 @@ type Result<'a> =
     | Success of 'a
     | Failure of string 
 
-let parse_character character str = 
-    if String.IsNullOrEmpty(str) then
-        Failure "No more input"
-    else
-        let first = str.[0]
-        if first = character then
-            let tail = str.[1..]
-            Success (character, tail)
-        else
-            Failure "not found"
 
-let parse_A = parse_character 'A'
+type Parser<'T> = Parser of (string -> Result<'T * string>)
+
+let parse_character character = 
+    let inner_function str = 
+    
+        if String.IsNullOrEmpty(str) then
+            Failure "No more input"
+        else
+            let first = str.[0]
+            if first = character then
+                let tail = str.[1..]
+                Success (character, tail)
+            else
+                Failure "not found"
+
+    Parser inner_function
 
 [<EntryPoint>]
 let main argv = 
-    printfn "%A" (parse_A "AHEK")
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
