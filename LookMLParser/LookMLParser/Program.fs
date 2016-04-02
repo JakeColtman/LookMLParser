@@ -77,14 +77,20 @@ let orElse parser1 parser2 =
 
 let ( .>>. ) = andThen
 let ( .>>>. ) = orElse
+
+let choice listOfParsers = 
+    List.reduce ( .>>>. ) listOfParsers
+
 let parseD = parse_character 'D'
 let parseE = parse_character 'E'
 
 let parseDthenE = parseD .>>. parseE
 let parseDorE = parseD .>>>. parseE
 
+let parserDthenEthenDorE = parseDthenE .>>. parseDorE
+
 [<EntryPoint>]
 let main argv = 
-    printfn "%A" (run parseDorE  "EDEllo world")
+    printfn "%A" (run parserDthenEthenDorE  "DEDEllo world")
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
