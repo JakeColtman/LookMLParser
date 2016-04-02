@@ -10,16 +10,20 @@ let Parser str =
     else
         (false, str)
 
+type Result<'a> = 
+    | Success of 'a
+    | Failure of string 
+
 let parse_character character str = 
     if String.IsNullOrEmpty(str) then
-        ("No more input", "")
+        Failure "No more input"
     else
         let first = str.[0]
         if first = character then
             let tail = str.[1..]
-            ("Found", tail)
+            Success (character, tail)
         else
-            ("Failure", str)
+            Failure "not found"
         
 
 [<EntryPoint>]
