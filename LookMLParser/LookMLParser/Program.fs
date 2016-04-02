@@ -32,7 +32,14 @@ let parse_character character =
 
     Parser inner_function
 
+let parseB = parse_character 'b'
+
+let run parser input = 
+    let (Parser innerFn) = parser
+    innerFn input
+
 [<EntryPoint>]
 let main argv = 
+    printfn "%A" (run parseB  "bello world")
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
