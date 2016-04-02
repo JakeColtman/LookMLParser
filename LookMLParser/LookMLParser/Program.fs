@@ -10,6 +10,18 @@ let Parser str =
     else
         (false, str)
 
+let parse_character character str = 
+    if String.IsNullOrEmpty(str) then
+        ("No more input", "")
+    else
+        let first = str.[0]
+        if first = character then
+            let tail = str.[1..]
+            ("Found", tail)
+        else
+            ("Failure", str)
+        
+
 [<EntryPoint>]
 let main argv = 
     printfn "%A" (Parser "AJake")
