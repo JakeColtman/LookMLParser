@@ -24,10 +24,11 @@ let parse_character character str =
             Success (character, tail)
         else
             Failure "not found"
-        
+
+let parse_A = parse_character 'A'
 
 [<EntryPoint>]
 let main argv = 
-    printfn "%A" (Parser "AJake")
+    printfn "%A" (parse_A "AHEK")
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
