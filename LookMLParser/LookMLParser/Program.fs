@@ -142,8 +142,20 @@ let rec sequence parserList =
 
 let parseDigits = sequence [parseDigit ; parseDigit ; parseDigit]
 
+let charsToString chars = 
+    String(List.toArray chars)
+
+let pstring str = 
+    str
+        |> List.ofSeq
+        |> List.map parse_character
+        |> sequence
+        |> mapP charsToString
+
+let helloParser = pstring "hello"       
+
 [<EntryPoint>]
 let main argv = 
-    printfn "%A" (run parseDigits "12345678")
+    printfn "%A" (run helloParser "hello world")
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
