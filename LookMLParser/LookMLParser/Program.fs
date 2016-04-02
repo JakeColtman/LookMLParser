@@ -90,8 +90,33 @@ let parseAnyUpperCaseLetter = anyOf (letters |> Array.toList)
 
 let parseDigit = anyOf ['0'..'9']
 
+let mapP f parser = 
+    let innerFn input = 
+        let result = run parser input
+        match result with 
+        | Success (value, remaining) ->
+            let newValue = f value
+            Success (newValue, remaining)
+        | Failure err -> 
+            Failure err
+
+    Parser innerFn
+
+let ( <!> ) = mapP
+let ( |>> ) x f = mapP f x
+
+let parseThreeDigits = 
+    let tupleParser =
+        parseDigit .>>. parseDigit .>>. parseDigit
+
+    let transformTuple ( (c1, c2), c3) = 
+        String [| c1 ; c2; c3 |]
+
+    mapP transformTuple tupleParser
+
+
 [<EntryPoint>]
 let main argv = 
-    printfn "%A" (run parseDigit "1Hello")
+    printfn "%A" (run parseThreeDigits "123A")
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
