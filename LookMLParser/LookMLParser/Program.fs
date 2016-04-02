@@ -83,12 +83,15 @@ let choice listOfParsers =
 
 let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
 
-let letterParsers = letters |> Array.map parse_character |> Array.toList 
+let anyOf listOfChars = 
+    listOfChars |> List.map parse_character |> choice
 
-let parseAnyUpperCaseLetter = choice letterParsers
+let parseAnyUpperCaseLetter = anyOf (letters |> Array.toList)
+
+let parseDigit = anyOf ['0'..'9']
 
 [<EntryPoint>]
 let main argv = 
-    printfn "%A" (run parseAnyUpperCaseLetter "Hello")
+    printfn "%A" (run parseDigit "1Hello")
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
