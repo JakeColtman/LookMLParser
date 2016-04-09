@@ -66,7 +66,7 @@ module BasicParser =
         Parser innerFn
 
     let ( .>>. ) = andThen
-    let ( .>>>. ) = orElse
+    let ( <|> ) = orElse
 
     let choice listOfParsers = 
         List.reduce ( .>>>. ) listOfParsers
@@ -89,7 +89,7 @@ module BasicParser =
         Parser innerFn
 
     let ( <!> ) = mapP
-    let ( |>> ) x f = mapP f 
+    let ( |>> ) x f = mapP f x
 
     let parseDigit = 
         anyOf ['0' .. '9']
@@ -167,6 +167,30 @@ module BasicParser =
                     Success(values, remainingInput)
         Parser innerFn
 
-        
-        
+    let opt p = 
+        let some = p |>> Some
+        let none = returnP None
+        some <|> none
+
+    let (.>>) p1 p2 = 
+        p1 .>>. p2 |> mapP (fun (a,b) -> a)
+
+    let (>>.) p1 p2 = 
+        p1 .>>. p2 |> mapP (fun (a,b) -> b)
+
+    let between p1 p2 p3 = 
+        p1 >>. p2 .>> p3
+
+    let bindP f p = 
+        let innerFn input = 
+            let result1 = run p input
+            match result1 with 
+            | Failure err -> Failure err
+            | Success (value1, remainingInput) -> 
+                let p2 = f value1
+                run p2 remainingInput
+
+        Parser innerFn
+
+    let ( >>= ) p f = bindP f p 
 
