@@ -2,6 +2,16 @@
 
 module Model = 
 
+    type DimensionStyle = 
+        | Interval
+        | Classic 
+        | Integer
+        | Relational
+
+    type MeasureDirection = 
+        | Row
+        | COlumn
+
     type DimensionDataType = 
         | String
         | Number
@@ -10,6 +20,13 @@ module Model =
         | Tier
         | Location
         | ZipCode
+
+    type DimensionGroupDataType = 
+        | Epoch
+        | TimeStamp
+        | DateTime
+        | Date
+        | YYYYMMDD
 
     type MetricDataType = 
         | String 
@@ -29,17 +46,31 @@ module Model =
         | RunningTotal
 
     type DimensionGroupDetails = {
-        ttype : DimensionDataType;
-        hidden : bool;
+        data_type : DimensionGroupDataType;
+        convert_tz : bool;
         primary_key: bool;
-        sql: string
+        timeframes : list<string>
     }
 
     type DimensionDetails = {
-        ttype : DimensionDataType;
+        data_type : DimensionDataType;
         hidden : bool;
         primary_key: bool;
-        sql: string
+        sql: string;
+        aplha_sort: bool;
+        tiers : list<int>;
+        style: DimensionStyle;
+        suggestable: bool
+    }
+
+    type MeasureDetails = {
+        data_type : MetricDataType;
+        direction: MeasureDirection;
+        approximate: bool;
+        approximate_threshold : int;
+        sql_distinct_key : string;
+        list_field: string;
+        filters: string
     }
 
     type FieldDetails = {
