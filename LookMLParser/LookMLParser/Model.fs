@@ -83,7 +83,12 @@ module Model =
         drill_fields: list<string>
     }
 
-    type FieldTypes = 
-        | Dimension
-        | Metric
-        | DimensionGroup
+    type FieldType = 
+        | DimensionType
+        | MetricType
+        | DimensionGroupType
+
+    type Field = 
+        | Dimension of FieldType * DimensionDetails * FieldDetails
+        | Measure of FieldType * MeasureDetails * FieldDetails
+        | DimensionGroup of FieldType * DimensionGroupDetails * FieldDetails
