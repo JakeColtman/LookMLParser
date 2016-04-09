@@ -47,7 +47,7 @@ module FieldModel =
 
     type MeasureDirection = 
         | Row
-        | COlumn
+        | Column
 
     type DimensionDataType = 
         | String
