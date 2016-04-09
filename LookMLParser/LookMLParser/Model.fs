@@ -95,26 +95,25 @@ module FieldModel =
 
     type DimensionDetails = {
         data_type : DimensionDataType;
-        hidden : bool;
         primary_key: bool;
-        sql: string;
-        aplha_sort: bool;
-        tiers : list<int>;
-        style: DimensionStyle;
+        alpha_sort: bool;
+        tiers : Option<list<int>>;
+        style: Option<DimensionStyle>;
         suggestable: bool
     }
 
     type MeasureDetails = {
         data_type : MeasureDataType;
-        direction: MeasureDirection;
-        approximate: bool;
-        approximate_threshold : int;
-        sql_distinct_key : string;
-        list_field: string;
-        filters: string
+        direction: Option<MeasureDirection>;
+        approximate: Option<bool>;
+        approximate_threshold : Option<int>;
+        sql_distinct_key : Option<string>;
+        list_field: Option<string>;
+        filters: Option<string>
     }
 
     type FieldDetails = {
+        sql: string;
         label : Option<string>;
         view_label: Option<string>;
         description: Option<string>;

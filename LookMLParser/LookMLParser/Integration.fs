@@ -33,25 +33,24 @@ module Integration =
 
 
         let field_details = {
-            label = name_string;
-            view_label = "Test";
-            description = "Test";
-            hidden = true;
-            alias = [];
-            required_fields = [];
-            drill_fields = []
+            label = Some name_string;
+            sql = sql_string;
+            view_label = Some "Test";
+            description = Some "Test";
+            hidden = false;
+            alias = None;
+            required_fields = None;
+            drill_fields = None
         }
 
         match (dimension_type, data_type) with 
             | (DimensionType, DimensionDataType parsed_data_type) -> 
                 let details = {
                     data_type = parsed_data_type;
-                    hidden = true;
                     primary_key = true;
-                    sql = sql_string;
-                    aplha_sort = true;
-                    tiers = [];
-                    style = Integer ;
+                    alpha_sort = true;
+                    tiers = None;
+                    style = None ;
                     suggestable = true
                 }
                 let output = Dimension (DimensionType , details , field_details)
@@ -60,12 +59,12 @@ module Integration =
             | (MeasureType, MeasureDataType parsed_data_type) ->
                 let details = {
                     data_type = parsed_data_type;
-                    direction = Row;
-                    approximate = false;
-                    approximate_threshold = 0;
-                    sql_distinct_key = "";
-                    list_field = "";
-                    filters = ""
+                    direction = Some Row;
+                    approximate = Some false;
+                    approximate_threshold = Some 0;
+                    sql_distinct_key = None;
+                    list_field = None;
+                    filters = None
                 }
                 Some (Measure (MeasureType , details , field_details))
 
