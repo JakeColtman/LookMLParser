@@ -18,6 +18,11 @@ module LookMLParser =
     let digit : Parser<char> = anyOf ['0' .. '9']
     let number = many digit
 
+    let sql_table_parser = 
+        let p_intro = string_parser "sql_table_name"
+        
+        whitespace >>. p_intro >>. colon >>. whitespace >>. extendedString |>> ( fun char_list -> BasicParser.charListToString char_list |> convert_into_sql_table)
+
 
     let field_parser =
     

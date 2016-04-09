@@ -2,6 +2,10 @@
 
 module Integration = 
     open LookMLParser.FieldModel;
+    open LookMLParser.View;
+
+    let convert_into_sql_table name_string = 
+        SqlTable {name = name_string}
 
     let convert_into_field (((dimension_type_string , name_string), type_string), sql_string) = 
 

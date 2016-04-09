@@ -6,12 +6,10 @@ open LookMLParser.BasicParser;
 [<EntryPoint>]
 let main argv =
     
-    let testString = @"     - measure: currency   type: number sql: {table}.hello
-                            - dimension: currenydim type: string sql: {table}.currency
-                      "
+    let testString = @"      sql_table_name: schema.tablename                    "
 
 
-    let result = LookMLParser.BasicParser.run LookMLParser.LookMLParser.fields_parser testString
+    let result = LookMLParser.BasicParser.run LookMLParser.LookMLParser.sql_table_parser testString
     printfn "%A" result
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code

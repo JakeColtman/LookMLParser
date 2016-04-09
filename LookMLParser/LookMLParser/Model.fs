@@ -139,8 +139,8 @@ module FieldModel =
 module View = 
 
     type ViewData = 
-        | DerivedTable
-        | SqlTable
+        | DerivedTable of DerivedTable.DerivedTable
+        | SqlTable of SqlTable.SqlTable
 
     type View = {
         name: string;
