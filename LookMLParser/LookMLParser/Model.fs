@@ -1,5 +1,11 @@
 ﻿namespace LookMLParser 
 
+module SqlTable = 
+    
+    type SqlTable = {
+        name : string
+    }
+
 module DerivedTable = 
 
     type DistributionStyle = 
@@ -17,7 +23,7 @@ module DerivedTable =
         distribution_key : string;
         distribution_style: DistributionStyle;
         sort_kets : list<string>;
-        indexes : list<string>;
+        indexes : list<string>
     }
 
 module SetModel = 
@@ -123,3 +129,17 @@ module FieldModel =
         | Dimension of FieldType * DimensionDetails * FieldDetails
         | Measure of FieldType * MeasureDetails * FieldDetails
         | DimensionGroup of FieldType * DimensionGroupDetails * FieldDetails
+
+module View = 
+
+    type ViewData = 
+        | DerivedTable
+        | SqlTable
+
+    type View = {
+        name: string;
+        data: ViewData;
+        suggestions: bool;
+        fields: list<FieldModel.Field>;
+        sets: SetModel.Sets
+    }
