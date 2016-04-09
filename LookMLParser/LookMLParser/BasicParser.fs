@@ -115,3 +115,15 @@ module BasicParser =
 
     let lift2 f xP yP = 
         returnP f <*> xP <*> yP
+
+    let rec sequence parserList = 
+        
+        let cons head tail = head::tail
+
+        let consP = lift2 cons
+
+        match parserList with 
+        | [] -> 
+            returnP []
+        | head::tail -> 
+            consP head (sequence tail)
