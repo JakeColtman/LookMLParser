@@ -137,3 +137,23 @@ module BasicParser =
             |> List.map parse_character
             |> sequence
             |> mapP charListToString
+
+    let rec parseZeroOrMore parser input = 
+
+        let result1 = run parser input
+
+        match result1 with 
+        | Failure err
+                -> ([], input)
+        | Success (firstValue, inputAfterFirstValue) -> 
+            let (subsequentValues, remainingInput) = parseZeroOrMore parser inputAfterFirstValue
+            let values = firstValue::subsequentValues
+            (values, remainingInput)
+
+    let many parser = 
+        let rec innerFn input = 
+            Success(parseZeroOrMore parser input)
+
+        Parser innerFn
+        
+
