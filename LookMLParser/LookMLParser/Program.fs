@@ -11,10 +11,7 @@ let main argv =
     "
 
     let find = "dimension"
-    let findParser = testString
-                        |> List.ofSeq
-                        |> List.map LookMLParser.BasicParser.parse_character
-                        |> LookMLParser.BasicParser.sequence
+    let findParser = LookMLParser.BasicParser.string_parser testString
 
     let result = LookMLParser.BasicParser.run findParser
     printfn "%A" (result testString)

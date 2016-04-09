@@ -127,3 +127,13 @@ module BasicParser =
             returnP []
         | head::tail -> 
             consP head (sequence tail)
+
+    let charListToString  character_list = 
+        String(List.toArray character_list)
+
+    let string_parser str = 
+        str
+            |> List.ofSeq
+            |> List.map parse_character
+            |> sequence
+            |> mapP charListToString
