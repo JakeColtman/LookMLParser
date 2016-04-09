@@ -76,37 +76,29 @@ module BasicParser =
         |> List.map parse_character
         |> choice
 
-    let mapP f parser = 
+    let bindP f p = 
         let innerFn input = 
-            let result = run parser input
-            match result with 
-            | Success (value, remaining) ->
-                let newValue = f value
-                Success (newValue, remaining)
-            | Failure err -> 
-                Failure err
+            let result1 = run p input
+            match result1 with 
+            | Failure err -> Failure err
+            | Success (value1, remainingInput) -> 
+                let p2 = f value1
+                run p2 remainingInput
 
         Parser innerFn
 
-    let ( <!> ) = mapP
-    let ( |>> ) x f = mapP f x
-
-    let parseDigit = 
-        anyOf ['0' .. '9']
-
-    let parseThreeDigitsAsStr = 
-        let tupleParser = 
-            parseDigit .>>. parseDigit .>>. parseDigit
-
-        let transformer((c1,c2),c3) = 
-            String [|c1;c2;c3|]
-
-        mapP transformer tupleParser
+    let ( >>= ) p f = bindP f p 
 
     let returnP x = 
         let innerFn input = 
             Success(x, input)
         Parser innerFn
+
+    let mapP f = 
+        bindP ( f >> returnP)
+
+    let ( <!> ) = mapP
+    let ( |>> ) x f = mapP f x
 
     let applyP fP xP = 
         (fP .>>.xP) |> mapP (fun (f,x) -> f x)
@@ -181,16 +173,5 @@ module BasicParser =
     let between p1 p2 p3 = 
         p1 >>. p2 .>> p3
 
-    let bindP f p = 
-        let innerFn input = 
-            let result1 = run p input
-            match result1 with 
-            | Failure err -> Failure err
-            | Success (value1, remainingInput) -> 
-                let p2 = f value1
-                run p2 remainingInput
-
-        Parser innerFn
-
-    let ( >>= ) p f = bindP f p 
+    
 
