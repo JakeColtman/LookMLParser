@@ -147,5 +147,5 @@ module View =
         data: ViewData;
         suggestions: bool;
         fields: list<FieldModel.Field>;
-        sets: SetModel.Sets
+        sets: Option<SetModel.Sets>
     }
