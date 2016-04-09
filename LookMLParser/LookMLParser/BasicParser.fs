@@ -28,21 +28,6 @@ module BasicParser =
         let (Parser innerFn) = parser
         innerFn input
 
-    let mapP f parser = 
-        let innerFn input = 
-            let result = run parser input
-            match result with 
-            | Success (value, remaining) ->
-                let newValue = f value
-                Success (newValue, remaining)
-            | Failure err -> 
-                Failure err
-
-        Parser innerFn
-
-    let ( <!> ) = mapP
-    let ( |>> ) x f = mapP f 
-
     let andThen parser1 parser2 = 
         let innerFn input = 
             let result1 = run parser1 input
@@ -91,8 +76,42 @@ module BasicParser =
         |> List.map parse_character
         |> choice
 
+    let mapP f parser = 
+        let innerFn input = 
+            let result = run parser input
+            match result with 
+            | Success (value, remaining) ->
+                let newValue = f value
+                Success (newValue, remaining)
+            | Failure err -> 
+                Failure err
+
+        Parser innerFn
+
+    let ( <!> ) = mapP
+    let ( |>> ) x f = mapP f 
+
     let parseDigit = 
         anyOf ['0' .. '9']
 
-    let parseThreeDigits = 
-        parseDigit .>>. parseDigit .>>. parseDigit
+    let parseThreeDigitsAsStr = 
+        let tupleParser = 
+            parseDigit .>>. parseDigit .>>. parseDigit
+
+        let transformer((c1,c2),c3) = 
+            String [|c1;c2;c3|]
+
+        mapP transformer tupleParser
+
+    let returnP x = 
+        let innerFn input = 
+            Success(x, input)
+        Parser innerFn
+
+    let applyP fP xP = 
+        (fP .>>.xP) |> mapP (fun (f,x) -> f x)
+
+    let ( <*> ) = applyP
+
+    let lift2 f xP yP = 
+        returnP f <*> xP <*> yP
