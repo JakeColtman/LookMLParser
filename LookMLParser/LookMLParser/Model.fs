@@ -115,13 +115,13 @@ module FieldModel =
     }
 
     type FieldDetails = {
-        label : string;
-        view_label: string;
-        description: string;
+        label : Option<string>;
+        view_label: Option<string>;
+        description: Option<string>;
         hidden: bool;
-        alias: list<string>;
-        required_fields: list<string>;
-        drill_fields: list<string>
+        alias: Option<list<string>>;
+        required_fields: Option<list<string>>;
+        drill_fields: Option<list<string>>
     }
 
     type FieldType = 
