@@ -50,5 +50,7 @@ module LookMLParser =
             .>> whitespace 
             .>>. p_sql
             |>> (fun x -> convert_into_field x)
-            |>> printfn "%A"
+
+    let fields_parser = 
+        many field_parser
 
