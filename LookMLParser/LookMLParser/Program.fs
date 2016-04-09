@@ -6,7 +6,7 @@ open LookMLParser.BasicParser;
 [<EntryPoint>]
 let main argv =
     
-    let testString = @"     - dimension: currency   "
+    let testString = @"     - measure: currency   type: number"
 
 
     let result = LookMLParser.BasicParser.run LookMLParser.LookMLParser.field_parser testString

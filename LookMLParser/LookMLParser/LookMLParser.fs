@@ -25,11 +25,11 @@ module LookMLParser =
         let intro_parser = whitespace .>>. dash .>>. whitespace
         let middle_spacing = whitespace .>>. colon .>>. whitespace
 
-        let field_type_parser = dimension_parser <|> measure_parser <|> dimension_group_parser
+        let field_datatype_parser = dimension_parser <|> measure_parser <|> dimension_group_parser
         let field_name_parser = string |>> ( fun char_list -> BasicParser.charListToString char_list)
 
-        let mapped_field_type_parser  = 
-                                field_type_parser |>> ( fun name -> 
+        let mapped_field_datatype_parser  = 
+                                field_datatype_parser |>> ( fun name -> 
                                     match name with 
                                         | "dimension" -> LookMLParser.FieldModel.DimensionType
                                         | "measure" -> LookMLParser.FieldModel.MetricType
@@ -37,6 +37,20 @@ module LookMLParser =
                                         | _  -> LookMLParser.FieldModel.DimensionGroupType
                                 )
 
-        ((intro_parser >>. mapped_field_type_parser ) .>> middle_spacing) .>>. field_name_parser
+        let field_type_parser = 
+            let string_type_parser = "type" |> List.ofSeq |> BasicParser.string_parser
+            string_type_parser >>. colon >>. whitespace >>. string
+
+        let mapped_field_type_parser = 
+            field_type_parser |>> (fun name ->
+                                    let string_name = BasicParser.charListToString name
+                                    match string_name with 
+                                        | "number" -> LookMLParser.FieldModel.Number
+                                        | "yesno" -> LookMLParser.FieldModel.YesNo
+                                        | "string" -> LookMLParser.FieldModel.String
+                                        | _ ->  LookMLParser.FieldModel.String
+                                    )
+
+        ((((intro_parser >>. mapped_field_datatype_parser ) .>> middle_spacing) .>>. field_name_parser) .>> whitespace) .>>. mapped_field_type_parser
 
    
