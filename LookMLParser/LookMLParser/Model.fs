@@ -2,7 +2,7 @@
 
 module Model = 
 
-    type DimensionType = 
+    type DimensionDataType = 
         | String
         | Number
         | YesNo
@@ -11,7 +11,7 @@ module Model =
         | Location
         | ZipCode
 
-    type MetricType = 
+    type MetricDataType = 
         | String 
         | Date
         | Number
@@ -28,21 +28,31 @@ module Model =
         | PercentOfTotal
         | RunningTotal
 
-    type DimensionGroup = {
-        ttype : DimensionType;
+    type DimensionGroupDetails = {
+        ttype : DimensionDataType;
         hidden : bool;
         primary_key: bool;
         sql: string
     }
 
-    type Dimension = {
-        ttype : DimensionType;
+    type DimensionDetails = {
+        ttype : DimensionDataType;
         hidden : bool;
         primary_key: bool;
         sql: string
     }
 
-    type Field = 
+    type FieldDetails = {
+        label : string;
+        view_label: string;
+        description: string;
+        hidden: bool;
+        alias: list<string>;
+        required_fields: list<string>;
+        drill_fields: list<string>
+    }
+
+    type FieldTypes = 
         | Dimension
         | Metric
         | DimensionGroup
