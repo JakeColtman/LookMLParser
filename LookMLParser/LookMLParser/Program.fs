@@ -8,6 +8,7 @@ let main argv =
     
     let testString = @"    - view: testview
                                  sql_table_name: schema.table_name
+                                 fields:
                                   - measure: currency   type: number sql: ${table}.currency
     
                        "
