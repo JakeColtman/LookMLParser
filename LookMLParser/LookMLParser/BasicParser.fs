@@ -165,5 +165,13 @@ module BasicParser =
     let between p1 p2 p3 = 
         p1 >>. p2 .>> p3
 
+    let sepBy1 p sep = 
+        let sepThenP = sep >>. p
+        p .>>. many sepThenP
+        |>> fun (p, pList) -> p::pList
+
+    let sepBy p sep = 
+        sepBy1 p sep <|> returnP []
+
     
 
