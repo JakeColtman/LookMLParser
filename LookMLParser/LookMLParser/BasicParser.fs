@@ -173,5 +173,7 @@ module BasicParser =
     let sepBy p sep = 
         sepBy1 p sep <|> returnP []
 
+    let (>>%) p x = p |>> (fun _ -> x)
+
     
 

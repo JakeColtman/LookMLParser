@@ -18,31 +18,19 @@ module LookMLParser =
 
     let field_parser =
     
-        let dimension_parser = "dimension" |> List.ofSeq |> BasicParser.string_parser
-        let measure_parser = "measure" |> List.ofSeq |> BasicParser.string_parser 
-        let dimension_group_parser = "dimension_group" |> List.ofSeq |> BasicParser.string_parser  
-
         let intro_parser = whitespace .>>. dash .>>. whitespace
         let middle_spacing = whitespace .>>. colon .>>. whitespace
 
-        let field_datatype_parser = dimension_parser <|> measure_parser <|> dimension_group_parser
-        let field_name_parser = string |>> ( fun char_list -> BasicParser.charListToString char_list)
+        let p_dimension = string_parser "dimension" >>% LookMLParser.FieldModel.DimensionType
+        let p_measure = string_parser "measure" >>% LookMLParser.FieldModel.MetricType
+        let p_datatype = p_dimension <|> p_measure
 
-        let mapped_field_datatype_parser  = 
-                                field_datatype_parser |>> ( fun name -> 
-                                    match name with 
-                                        | "dimension" -> LookMLParser.FieldModel.DimensionType
-                                        | "measure" -> LookMLParser.FieldModel.MetricType
-                                        | "dimension_group" -> LookMLParser.FieldModel.DimensionGroupType
-                                        | _  -> LookMLParser.FieldModel.DimensionGroupType
-                                )
+        let p_name = string |>> ( fun char_list -> BasicParser.charListToString char_list)
 
         let field_type_parser = 
-            let string_type_parser = "type" |> List.ofSeq |> BasicParser.string_parser
-            string_type_parser >>. colon >>. whitespace >>. string
-
-        let mapped_field_type_parser = 
-            field_type_parser |>> (fun name ->
+            let p_intro = string_parser "type"
+            (p_intro >>. colon >>. whitespace >>. string)
+                |>> (fun name ->
                                     let string_name = BasicParser.charListToString name
                                     match string_name with 
                                         | "number" -> LookMLParser.FieldModel.Number
@@ -51,6 +39,6 @@ module LookMLParser =
                                         | _ ->  LookMLParser.FieldModel.String
                                     )
 
-        ((((intro_parser >>. mapped_field_datatype_parser ) .>> middle_spacing) .>>. field_name_parser) .>> whitespace) .>>. mapped_field_type_parser
+        ((((intro_parser >>. p_datatype ) .>> middle_spacing) .>>. p_name) .>> whitespace) .>>. field_type_parser
 
    
