@@ -59,3 +59,9 @@ module LookMLParser =
     let fields_parser = 
         many field_parser
 
+    let view_parser = 
+        
+        let intro_parser = string_parser "- view:"
+        let viewname_parser = extendedString |>> ( fun char_list -> BasicParser.charListToString char_list)
+
+        whitespace >>. intro_parser >>. whitespace >>. viewname_parser .>> whitespace .>>. sql_table_parser .>> whitespace .>>. fields_parser
