@@ -1,6 +1,17 @@
 ﻿namespace LookMLParser 
 
-module Model = 
+module SetModel = 
+
+    type Set = {
+        name: string
+        fields : list<string>
+    }
+
+    type Sets = {
+        sets : list<Set>
+    }
+
+module FieldModel = 
 
     type DimensionStyle = 
         | Interval
