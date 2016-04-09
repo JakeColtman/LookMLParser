@@ -69,7 +69,7 @@ module BasicParser =
     let ( <|> ) = orElse
 
     let choice listOfParsers = 
-        List.reduce ( .>>>. ) listOfParsers
+        List.reduce ( <|> ) listOfParsers
 
     let anyOf characterList = 
         characterList 
