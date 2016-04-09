@@ -155,5 +155,18 @@ module BasicParser =
             Success(parseZeroOrMore parser input)
 
         Parser innerFn
+
+    let many1 parser = 
+        let rec innerFn input = 
+            let result1 = run parser input
+            match result1 with 
+                | Failure err -> Failure err
+                | Success (value, inputAfterFirstParse) ->
+                    let (subseqentValues, remainingInput ) = parseZeroOrMore parser inputAfterFirstParse
+                    let values = value :: subseqentValues
+                    Success(values, remainingInput)
+        Parser innerFn
+
+        
         
 
