@@ -2,7 +2,7 @@
 
 module LookMLParser = 
     open BasicParser;
-    open FieldModel;
+    open Integration;
 
     let single_whitespace : Parser<char> = anyOf [ ' '  ; '\n' ; '\r' ; '\t' ]
     let whitespace = many single_whitespace
@@ -24,8 +24,8 @@ module LookMLParser =
         let intro_parser = whitespace .>>. dash .>>. whitespace
         let middle_spacing = whitespace .>>. colon .>>. whitespace
 
-        let p_dimension = string_parser "dimension" >>% LookMLParser.FieldModel.DimensionType
-        let p_measure = string_parser "measure" >>% LookMLParser.FieldModel.MeasureType
+        let p_dimension = string_parser "dimension" 
+        let p_measure = string_parser "measure" 
         let p_datatype = p_dimension <|> p_measure
 
         let p_name = string |>> ( fun char_list -> BasicParser.charListToString char_list)

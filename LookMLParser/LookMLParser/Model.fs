@@ -134,67 +134,7 @@ module FieldModel =
         | Measure of FieldType * MeasureDetails * FieldDetails
         | DimensionGroup of FieldType * DimensionGroupDetails * FieldDetails
 
-    let convert_into_field (((dimension_type , name), ttype), sql) = 
 
-        let data_type = 
-            match dimension_type with
-            | DimensionType -> 
-                match ttype with 
-                | "number" -> DimensionDataType DimensionDataType.Number
-                | "location" -> DimensionDataType DimensionDataType.Location
-                | "string" -> DimensionDataType DimensionDataType.String
-                | "tier" -> DimensionDataType DimensionDataType.Tier
-                | "time" -> DimensionDataType DimensionDataType.Time
-                | "yesno" -> DimensionDataType DimensionDataType.YesNo
-                | "zipcode" -> DimensionDataType DimensionDataType.ZipCode
-                | _ -> DimensionDataType DimensionDataType.String
-
-            | MeasureType -> 
-                match ttype with 
-                | "sum" -> MeasureDataType MeasureDataType.Number
-                | _ -> MeasureDataType MeasureDataType.Sum
-
-            | _ -> DimensionDataType DimensionDataType.String
-
-
-        let field_details = {
-            label = name;
-            view_label = "Test";
-            description = "Test";
-            hidden = true;
-            alias = [];
-            required_fields = [];
-            drill_fields = []
-        }
-
-        match (dimension_type, data_type) with 
-            | (DimensionType, DimensionDataType parsed_data_type) -> 
-                let details = {
-                    data_type = parsed_data_type;
-                    hidden = true;
-                    primary_key = true;
-                    sql = "Hello";
-                    aplha_sort = true;
-                    tiers = [];
-                    style = Integer ;
-                    suggestable = true
-                }
-                let output = Dimension (DimensionType , details , field_details)
-                Some output
-                 
-            | (MeasureType, MeasureDataType parsed_data_type) ->
-                let details = {
-                    data_type = parsed_data_type;
-                    direction = Row;
-                    approximate = false;
-                    approximate_threshold = 0;
-                    sql_distinct_key = "";
-                    list_field = "";
-                    filters = ""
-                }
-                Some (Measure (MeasureType , details , field_details))
-
-            | ( _ , _ ) -> None
 
 
 module View = 

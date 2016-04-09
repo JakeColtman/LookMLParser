@@ -52,6 +52,7 @@
     <Compile Include="Model.fs" />
     <Compile Include="BasicParser.fs" />
     <Compile Include="Learning.fs" />
+    <Compile Include="Integration.fs" />
     <Compile Include="LookMLParser.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
