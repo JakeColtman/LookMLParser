@@ -149,15 +149,7 @@ module BasicParser =
         Parser innerFn
 
     let many1 parser = 
-        let rec innerFn input = 
-            let result1 = run parser input
-            match result1 with 
-                | Failure err -> Failure err
-                | Success (value, inputAfterFirstParse) ->
-                    let (subseqentValues, remainingInput ) = parseZeroOrMore parser inputAfterFirstParse
-                    let values = value :: subseqentValues
-                    Success(values, remainingInput)
-        Parser innerFn
+        parser  >>= (fun head -> many parser >>= fun tail -> returnP (head::tail))
 
     let opt p = 
         let some = p |>> Some
