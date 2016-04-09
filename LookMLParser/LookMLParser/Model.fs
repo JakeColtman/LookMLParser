@@ -1,5 +1,25 @@
 ﻿namespace LookMLParser 
 
+module DerivedTable = 
+
+    type DistributionStyle = 
+        | All
+        | Even
+
+    type PersistanceTimeUnit = 
+        | Seconds
+        | Minutes
+        | Hours
+
+    type DerivedTable = {
+        sql : string;
+        persist_for : int * PersistanceTimeUnit;
+        distribution_key : string;
+        distribution_style: DistributionStyle;
+        sort_kets : list<string>;
+        indexes : list<string>;
+    }
+
 module SetModel = 
 
     type Set = {
