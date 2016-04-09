@@ -2,6 +2,7 @@
 
 module LookMLParser = 
     open BasicParser;
+    open FieldModel;
 
     let single_whitespace : Parser<char> = anyOf [ ' '  ; '\n' ; '\r' ; '\t' ]
     let whitespace = many single_whitespace
@@ -10,7 +11,9 @@ module LookMLParser =
     let colon = parse_character ':'
 
     let character : Parser<char> = anyOf [ 'a'.. 'z']
+    let extended_characters = anyOf (List.append [ 'a'.. 'Z'] [ '$'; '{'; '}'; '_'; '.'] )
     let string = many character
+    let extendedString = many (character <|> extended_characters)
 
     let digit : Parser<char> = anyOf ['0' .. '9']
     let number = many digit
@@ -33,12 +36,26 @@ module LookMLParser =
                 |>> (fun name ->
                                     let string_name = BasicParser.charListToString name
                                     match string_name with 
-                                        | "number" -> LookMLParser.FieldModel.Number
-                                        | "yesno" -> LookMLParser.FieldModel.YesNo
-                                        | "string" -> LookMLParser.FieldModel.String
-                                        | _ ->  LookMLParser.FieldModel.String
+                                        | "number" -> DimensionDataType LookMLParser.FieldModel.Number
+                                        | "yesno" -> DimensionDataType LookMLParser.FieldModel.YesNo
+                                        | "string" -> DimensionDataType LookMLParser.FieldModel.String
+                                        | _ ->  DimensionDataType LookMLParser.FieldModel.String
                                     )
 
-        ((((intro_parser >>. p_datatype ) .>> middle_spacing) .>>. p_name) .>> whitespace) .>>. field_type_parser
+        let p_sql = 
+            let p_intro = string_parser "sql"
+            let parser = p_intro .>>. colon .>> whitespace >>. extendedString
+            parser |>> ( fun char_list -> BasicParser.charListToString char_list)
+                   
 
-   
+        intro_parser 
+            >>. p_datatype 
+            .>> middle_spacing 
+            .>>. p_name 
+            .>> whitespace 
+            .>>. field_type_parser 
+            .>> whitespace 
+            .>>. p_sql
+            |>> (fun x -> convert_into_field x)
+            |>> printfn "%A"
+

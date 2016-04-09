@@ -82,6 +82,10 @@ module FieldModel =
         | PercentOfTotal
         | RunningTotal
 
+    type LookerDataType = 
+        | MetricDataType of MetricDataType
+        | DimensionDataType of DimensionDataType
+
     type DimensionGroupDetails = {
         data_type : DimensionGroupDataType;
         convert_tz : bool;
@@ -129,6 +133,47 @@ module FieldModel =
         | Dimension of FieldType * DimensionDetails * FieldDetails
         | Measure of FieldType * MeasureDetails * FieldDetails
         | DimensionGroup of FieldType * DimensionGroupDetails * FieldDetails
+
+    let convert_into_field (((dimension_type , name), ttype), sql) = 
+        let field_details = {
+            label = name;
+            view_label = "Test";
+            description = "Test";
+            hidden = true;
+            alias = [];
+            required_fields = [];
+            drill_fields = []
+        }
+
+        match (dimension_type, ttype) with 
+            | (DimensionType, DimensionDataType ttype) -> 
+                let details = {
+                    data_type = ttype;
+                    hidden = true;
+                    primary_key = true;
+                    sql = "Hello";
+                    aplha_sort = true;
+                    tiers = [];
+                    style = Integer ;
+                    suggestable = true
+                }
+                let output = Dimension (DimensionType , details , field_details)
+                Some output
+                 
+            | (MetricType, MetricDataType ttype) ->
+                let details = {
+                    data_type = ttype;
+                    direction = Row;
+                    approximate = false;
+                    approximate_threshold = 0;
+                    sql_distinct_key = "";
+                    list_field = "";
+                    filters = ""
+                }
+                Some (Measure (MetricType , details , field_details))
+
+            | ( _ , _ ) -> None
+
 
 module View = 
 
