@@ -101,7 +101,7 @@ module BasicParser =
     let ( |>> ) x f = mapP f x
 
     let applyP fP xP = 
-        (fP .>>.xP) |> mapP (fun (f,x) -> f x)
+        fP >>= (fun f -> xP >>= (fun x -> returnP (f x)))
 
     let ( <*> ) = applyP
 
