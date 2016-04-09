@@ -25,7 +25,7 @@ module LookMLParser =
         let middle_spacing = whitespace .>>. colon .>>. whitespace
 
         let p_dimension = string_parser "dimension" >>% LookMLParser.FieldModel.DimensionType
-        let p_measure = string_parser "measure" >>% LookMLParser.FieldModel.MetricType
+        let p_measure = string_parser "measure" >>% LookMLParser.FieldModel.MeasureType
         let p_datatype = p_dimension <|> p_measure
 
         let p_name = string |>> ( fun char_list -> BasicParser.charListToString char_list)
@@ -33,14 +33,7 @@ module LookMLParser =
         let field_type_parser = 
             let p_intro = string_parser "type"
             (p_intro >>. colon >>. whitespace >>. string)
-                |>> (fun name ->
-                                    let string_name = BasicParser.charListToString name
-                                    match string_name with 
-                                        | "number" -> DimensionDataType LookMLParser.FieldModel.Number
-                                        | "yesno" -> DimensionDataType LookMLParser.FieldModel.YesNo
-                                        | "string" -> DimensionDataType LookMLParser.FieldModel.String
-                                        | _ ->  DimensionDataType LookMLParser.FieldModel.String
-                                    )
+                |>> (fun name -> BasicParser.charListToString name)
 
         let p_sql = 
             let p_intro = string_parser "sql"

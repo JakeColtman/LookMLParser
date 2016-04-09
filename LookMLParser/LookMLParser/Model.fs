@@ -65,7 +65,7 @@ module FieldModel =
         | Date
         | YYYYMMDD
 
-    type MetricDataType = 
+    type MeasureDataType = 
         | String 
         | Date
         | Number
@@ -83,7 +83,7 @@ module FieldModel =
         | RunningTotal
 
     type LookerDataType = 
-        | MetricDataType of MetricDataType
+        | MeasureDataType of MeasureDataType
         | DimensionDataType of DimensionDataType
 
     type DimensionGroupDetails = {
@@ -105,7 +105,7 @@ module FieldModel =
     }
 
     type MeasureDetails = {
-        data_type : MetricDataType;
+        data_type : MeasureDataType;
         direction: MeasureDirection;
         approximate: bool;
         approximate_threshold : int;
@@ -126,7 +126,7 @@ module FieldModel =
 
     type FieldType = 
         | DimensionType
-        | MetricType
+        | MeasureType
         | DimensionGroupType
 
     type Field = 
@@ -135,6 +135,28 @@ module FieldModel =
         | DimensionGroup of FieldType * DimensionGroupDetails * FieldDetails
 
     let convert_into_field (((dimension_type , name), ttype), sql) = 
+
+        let data_type = 
+            match dimension_type with
+            | DimensionType -> 
+                match ttype with 
+                | "number" -> DimensionDataType DimensionDataType.Number
+                | "location" -> DimensionDataType DimensionDataType.Location
+                | "string" -> DimensionDataType DimensionDataType.String
+                | "tier" -> DimensionDataType DimensionDataType.Tier
+                | "time" -> DimensionDataType DimensionDataType.Time
+                | "yesno" -> DimensionDataType DimensionDataType.YesNo
+                | "zipcode" -> DimensionDataType DimensionDataType.ZipCode
+                | _ -> DimensionDataType DimensionDataType.String
+
+            | MeasureType -> 
+                match ttype with 
+                | "sum" -> MeasureDataType MeasureDataType.Number
+                | _ -> MeasureDataType MeasureDataType.Sum
+
+            | _ -> DimensionDataType DimensionDataType.String
+
+
         let field_details = {
             label = name;
             view_label = "Test";
@@ -145,10 +167,10 @@ module FieldModel =
             drill_fields = []
         }
 
-        match (dimension_type, ttype) with 
-            | (DimensionType, DimensionDataType ttype) -> 
+        match (dimension_type, data_type) with 
+            | (DimensionType, DimensionDataType parsed_data_type) -> 
                 let details = {
-                    data_type = ttype;
+                    data_type = parsed_data_type;
                     hidden = true;
                     primary_key = true;
                     sql = "Hello";
@@ -160,9 +182,9 @@ module FieldModel =
                 let output = Dimension (DimensionType , details , field_details)
                 Some output
                  
-            | (MetricType, MetricDataType ttype) ->
+            | (MeasureType, MeasureDataType parsed_data_type) ->
                 let details = {
-                    data_type = ttype;
+                    data_type = parsed_data_type;
                     direction = Row;
                     approximate = false;
                     approximate_threshold = 0;
@@ -170,7 +192,7 @@ module FieldModel =
                     list_field = "";
                     filters = ""
                 }
-                Some (Measure (MetricType , details , field_details))
+                Some (Measure (MeasureType , details , field_details))
 
             | ( _ , _ ) -> None
 
