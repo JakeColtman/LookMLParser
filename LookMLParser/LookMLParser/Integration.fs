@@ -66,6 +66,13 @@ module Integration =
                 | Some _ -> true
                 | None -> false
 
+        let pk =
+            match input_map.TryFind "pk" with 
+                | Some "true" -> true
+                | Some "false" -> false
+                | Some _ -> true
+                | None -> false
+
         let field_details = {
             label = input_map.TryFind "label";
             sql = sql_text;
@@ -81,7 +88,7 @@ module Integration =
             | (DimensionType, DimensionDataType parsed_data_type) -> 
                 let details = {
                     data_type = parsed_data_type;
-                    primary_key = true;
+                    primary_key = pk;
                     alpha_sort = true;
                     tiers = None;
                     style = None ;
