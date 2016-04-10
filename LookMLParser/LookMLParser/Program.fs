@@ -5,7 +5,7 @@ open LookMLParser.BasicParser;
 
 [<EntryPoint>]
 let main argv =
-    let testString = @"  
+    let testString = @" testset:
                         - columnone
                         - columntwo
                         - columnthree
