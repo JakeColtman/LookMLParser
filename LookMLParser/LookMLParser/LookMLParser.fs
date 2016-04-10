@@ -55,7 +55,7 @@ module LookMLParser =
 
         (many line_parser)
         |>> convert_output_into_map
-           // |>> (fun x -> convert_into_field x)
+        |>> (fun x -> convert_into_field x)
 
 
 
