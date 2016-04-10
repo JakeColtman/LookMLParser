@@ -30,26 +30,31 @@ module LookMLParser =
             let intro_parser = whitespace >>. dash >>. whitespace
             let middle_spacing = colon >>. whitespace
 
-            let p_dimension = string_parser "dimension" 
-            let p_measure = string_parser "measure" 
+            let p_dimension = string_parser "dimension" |>> (fun string -> ["looker_type", string])
+            let p_measure = string_parser "measure"  |>> (fun string -> ["looker_type", string])
             let p_datatype = p_dimension <|> p_measure
-
-            intro_parser >>. p_datatype .>> middle_spacing .>>. string
+            let p_name = string |>> ( fun char_list -> ["name", BasicParser.charListToString char_list])
+            (intro_parser >>. p_datatype .>> middle_spacing .>>. p_name) |>> (fun tuple -> [fst tuple ; snd tuple])
 
         let p_type = 
             let p_intro = string_parser "type"
-            (p_intro >>. colon >>. whitespace >>. string)
-                |>> (fun name -> BasicParser.charListToString name)
+            (whitespace >>. p_intro >>. colon >>. whitespace >>. string)
+                |>> (fun name -> [["data_type", BasicParser.charListToString name]])
 
         let p_sql = 
             let p_intro = string_parser "sql"
             let parser = whitespace >>. p_intro .>>. colon .>> whitespace >>. extendedString .>> whitespace
-            parser |>> ( fun char_list -> BasicParser.charListToString char_list)
+            parser |>> ( fun char_list -> [["sql" , BasicParser.charListToString char_list]])
                    
-    //    let line_parser =  p_name <|> p_sql <|> p_type
+        let line_parser =  p_name <|> p_sql <|> p_type
 
-       // many line_parser
-        p_name   |>> printfn "%A"
+        let convert_output_into_map input = 
+         input |> List.map List.concat
+               |> List.concat
+               |> Map.ofList
+
+        (many line_parser)
+        |>> convert_output_into_map
            // |>> (fun x -> convert_into_field x)
 
 
