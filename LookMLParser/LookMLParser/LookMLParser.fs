@@ -78,7 +78,7 @@ module LookMLParser =
 
     let sets_parser = 
         let intro = whitespace >>. (string_parser "sets:")
-        intro >>. many set_parser
+        intro >>. many set_parser |>> (fun x -> convert_into_sets x)
 
     let view_parser = 
         

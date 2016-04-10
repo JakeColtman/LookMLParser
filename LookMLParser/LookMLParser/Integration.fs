@@ -2,6 +2,7 @@
 
 module Integration = 
     open LookMLParser.FieldModel;
+    open LookMLParser.SetModel;
     open LookMLParser.View;
 
     let (|Found|_|) key map =
@@ -11,6 +12,13 @@ module Integration =
 
     let convert_into_sql_table name_string = 
         SqlTable {name = name_string}
+
+    let convert_into_sets input = 
+        let sets = 
+            input
+                |> List.map (fun (x, y) -> {Set.name = x; fields = y})
+        {Sets.sets = sets}
+
 
     let convert_into_field input_map = 
 
