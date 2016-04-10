@@ -59,15 +59,22 @@ module Integration =
                 | Some text -> text
                 | None -> "no sql given!!"
 
+        let hidden =
+            match input_map.TryFind "hidden" with 
+                | Some "true" -> true
+                | Some "false" -> false
+                | Some _ -> true
+                | None -> false
+
         let field_details = {
-            label = input_map.TryFind "name";
+            label = input_map.TryFind "label";
             sql = sql_text;
             view_label = Some "Test";
             description = Some "Test";
-            hidden = false;
+            hidden = hidden;
             alias = input_map.TryFind "alias";
-            required_fields = None;
-            drill_fields = None
+            required_fields = input_map.TryFind "required_fields";
+            drill_fields = input_map.TryFind "drill_fields"
         }
 
         match (dimension_type, data_type) with 
