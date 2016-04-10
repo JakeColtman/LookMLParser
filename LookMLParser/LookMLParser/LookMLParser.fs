@@ -26,6 +26,11 @@ module LookMLParser =
 
     let field_parser =
 
+        let row_string_parser row_name key_name = 
+            let p_intro = string_parser row_name
+            (whitespace >>. p_intro >>. colon >>. whitespace >>. string)
+                |>> (fun name -> [[key_name, BasicParser.charListToString name]])
+
         let p_name = 
             let intro_parser = whitespace >>. dash >>. whitespace
             let middle_spacing = colon >>. whitespace
@@ -36,10 +41,11 @@ module LookMLParser =
             let p_name = string |>> ( fun char_list -> ["name", BasicParser.charListToString char_list])
             (intro_parser >>. p_datatype .>> middle_spacing .>>. p_name) |>> (fun tuple -> [fst tuple ; snd tuple])
 
-        let p_type = 
-            let p_intro = string_parser "type"
-            (whitespace >>. p_intro >>. colon >>. whitespace >>. string)
-                |>> (fun name -> [["data_type", BasicParser.charListToString name]])
+        let p_type = row_string_parser "type" "data_type"
+//            let p_intro = string_parser "type"
+//            (whitespace >>. p_intro >>. colon >>. whitespace >>. string)
+//                |>> (fun name -> [["data_type", BasicParser.charListToString name]])
+            
 
         let p_sql = 
             let p_intro = string_parser "sql"
