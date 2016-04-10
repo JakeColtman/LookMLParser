@@ -65,7 +65,7 @@ module Integration =
             view_label = Some "Test";
             description = Some "Test";
             hidden = false;
-            alias = None;
+            alias = input_map.TryFind "alias";
             required_fields = None;
             drill_fields = None
         }

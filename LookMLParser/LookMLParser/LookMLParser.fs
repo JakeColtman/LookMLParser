@@ -49,7 +49,7 @@ module LookMLParser =
             let parser = whitespace >>. p_intro .>>. colon .>> whitespace >>. extendedString .>> whitespace
             parser |>> ( fun char_list -> [["sql" , BasicParser.charListToString char_list]])
                    
-        let line_parser =  p_name <|> p_sql <|> p_type
+        let line_parser =  p_name <|> p_sql <|> p_type <|> p_alias
 
         let convert_output_into_map input = 
          input |> List.map List.concat

@@ -118,9 +118,9 @@ module FieldModel =
         view_label: Option<string>;
         description: Option<string>;
         hidden: bool;
-        alias: Option<list<string>>;
-        required_fields: Option<list<string>>;
-        drill_fields: Option<list<string>>
+        alias: Option<string>;
+        required_fields: Option<string>;
+        drill_fields: Option<string>
     }
 
     type FieldType = 
