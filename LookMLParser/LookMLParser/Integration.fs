@@ -35,7 +35,21 @@ module Integration =
 
             | MeasureType -> 
                 match input_map with 
-                | Found "sum"  input_map -> MeasureDataType MeasureDataType.Number
+                | Found "string"  input_map -> MeasureDataType MeasureDataType.String 
+                | Found "date"  input_map -> MeasureDataType MeasureDataType.Date
+                | Found "number"  input_map -> MeasureDataType MeasureDataType.Number
+                | Found "count"  input_map -> MeasureDataType MeasureDataType.Count
+                | Found "count_distinct"  input_map -> MeasureDataType MeasureDataType.CountDistinct
+                | Found "sum"  input_map -> MeasureDataType MeasureDataType.Sum
+                | Found "sum_distinct"  input_map -> MeasureDataType MeasureDataType.SumDistinct
+                | Found "avg"  input_map -> MeasureDataType MeasureDataType.Avg
+                | Found "avg_distinct"  input_map -> MeasureDataType MeasureDataType.AvgDistinct
+                | Found "min"  input_map -> MeasureDataType MeasureDataType.Min
+                | Found "max"  input_map -> MeasureDataType MeasureDataType.Max
+                | Found "list"  input_map -> MeasureDataType MeasureDataType.List
+                | Found "percent_of_previous"  input_map -> MeasureDataType MeasureDataType.PercentOfPrevious
+                | Found "percent_of_total"  input_map -> MeasureDataType MeasureDataType.PercentOfTotal
+                | Found "running_total"  input_map -> MeasureDataType MeasureDataType.RunningTotal
                 | _ -> MeasureDataType MeasureDataType.Sum
 
             | _ -> DimensionDataType DimensionDataType.String
