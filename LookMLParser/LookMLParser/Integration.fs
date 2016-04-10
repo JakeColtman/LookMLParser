@@ -59,19 +59,16 @@ module Integration =
                 | Some text -> text
                 | None -> "no sql given!!"
 
-        let hidden =
-            match input_map.TryFind "hidden" with 
+        let default_false lookup = 
+            match input_map.TryFind lookup with 
                 | Some "true" -> true
                 | Some "false" -> false
                 | Some _ -> true
                 | None -> false
 
-        let pk =
-            match input_map.TryFind "pk" with 
-                | Some "true" -> true
-                | Some "false" -> false
-                | Some _ -> true
-                | None -> false
+        let hidden = default_false "hidden"
+
+        let pk = default_false "hidden"
 
         let field_details = {
             label = input_map.TryFind "label";
