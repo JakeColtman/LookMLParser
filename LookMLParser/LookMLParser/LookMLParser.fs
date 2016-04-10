@@ -25,15 +25,16 @@ module LookMLParser =
 
 
     let field_parser =
-    
-        let intro_parser = whitespace .>>. dash .>>. whitespace
-        let middle_spacing = whitespace .>>. colon .>>. whitespace
 
-        let p_dimension = string_parser "dimension" 
-        let p_measure = string_parser "measure" 
-        let p_datatype = p_dimension <|> p_measure
+        let p_name = 
+            let intro_parser = whitespace >>. dash >>. whitespace
+            let middle_spacing = colon >>. whitespace
 
-        let p_name = intro_parser >>. p_datatype .>> middle_spacing .>> string
+            let p_dimension = string_parser "dimension" 
+            let p_measure = string_parser "measure" 
+            let p_datatype = p_dimension <|> p_measure
+
+            intro_parser >>. p_datatype .>> middle_spacing .>>. string
 
         let p_type = 
             let p_intro = string_parser "type"
@@ -45,10 +46,10 @@ module LookMLParser =
             let parser = whitespace >>. p_intro .>>. colon .>> whitespace >>. extendedString .>> whitespace
             parser |>> ( fun char_list -> BasicParser.charListToString char_list)
                    
-        let line_parser =  p_name <|> p_sql <|> p_type
+    //    let line_parser =  p_name <|> p_sql <|> p_type
 
-        many line_parser
-            |>> printfn "%A"
+       // many line_parser
+        p_name   |>> printfn "%A"
            // |>> (fun x -> convert_into_field x)
 
 
