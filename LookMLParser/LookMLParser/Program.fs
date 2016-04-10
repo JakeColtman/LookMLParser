@@ -5,7 +5,7 @@ open LookMLParser.BasicParser;
 
 [<EntryPoint>]
 let main argv =
-    let testString = @"  - measure: currency   type: number sql: ${table}.currency  alias: testalias  label: imalabel
+    let testString = @"  - measure: currency   type: number sql: ${table}.currency  alias: testalias  label: imalabel  hidden: true
                        "
 
 

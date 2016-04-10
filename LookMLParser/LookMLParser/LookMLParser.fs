@@ -46,13 +46,14 @@ module LookMLParser =
         let p_label = row_string_parser "label" "label"
         let p_required_fields = row_string_parser "required_fields" "required_fields"
         let p_drill_fields = row_string_parser "drill_fields" "drill_fields"
+        let p_hidden = row_string_parser "hidden" "hidden"
 
         let p_sql = 
             let p_intro = string_parser "sql"
             let parser = whitespace >>. p_intro .>>. colon .>> whitespace >>. extendedString .>> whitespace
             parser |>> ( fun char_list -> [["sql" , BasicParser.charListToString char_list]])
                    
-        let line_parser =  p_name <|> p_sql <|> p_type <|> p_alias <|> p_label <|> p_required_fields <|> p_drill_fields
+        let line_parser =  p_name <|> p_sql <|> p_type <|> p_alias <|> p_label <|> p_required_fields <|> p_drill_fields <|> p_hidden
 
         let convert_output_into_map input = 
          input |> List.map List.concat
