@@ -72,7 +72,7 @@ module LookMLParser =
         many field_parser
 
     let set_parser = 
-        let set_name_parser = whitespace >>. string .>> colon |>> ( fun char_list -> [BasicParser.charListToString char_list])
+        let set_name_parser = whitespace >>. string .>> colon |>> ( fun char_list -> BasicParser.charListToString char_list)
         let row_parser = whitespace >>. dash >>. whitespace >>. string |>> ( fun char_list -> BasicParser.charListToString char_list)
         set_name_parser .>>. (many row_parser)
 
