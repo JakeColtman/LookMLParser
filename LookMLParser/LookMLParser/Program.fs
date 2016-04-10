@@ -5,15 +5,21 @@ open LookMLParser.BasicParser;
 
 [<EntryPoint>]
 let main argv =
-    let testString = @" testset:
-                        - columnone
-                        - columntwo
-                        - columnthree
-                        - columnfour
+    let testString = @" sets:
+                            testset:
+                            - columnone
+                            - columntwo
+                            - columnthree
+                            - columnfour
+                            testset:
+                            - columnonea
+                            - columntwoa
+                            - columnthreea
+                            - columnfoura
                        "
 
 
-    let result = LookMLParser.BasicParser.run LookMLParser.LookMLParser.set_parser testString
+    let result = LookMLParser.BasicParser.run LookMLParser.LookMLParser.sets_parser testString
 
 //    
 //    let testString = @"    - view: testview

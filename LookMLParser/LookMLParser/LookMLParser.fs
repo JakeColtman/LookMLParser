@@ -76,6 +76,9 @@ module LookMLParser =
         let row_parser = whitespace >>. dash >>. whitespace >>. string |>> ( fun char_list -> BasicParser.charListToString char_list)
         set_name_parser .>>. (many row_parser)
 
+    let sets_parser = 
+        let intro = whitespace >>. (string_parser "sets:")
+        intro >>. many set_parser
 
     let view_parser = 
         
