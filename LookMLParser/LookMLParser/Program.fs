@@ -5,11 +5,15 @@ open LookMLParser.BasicParser;
 
 [<EntryPoint>]
 let main argv =
-    let testString = @"  - measure: currency   type: number sql: ${table}.currency  alias: testalias  label: imalabel  hidden: true   primary_key: true
+    let testString = @"  
+                        - columnone
+                        - columntwo
+                        - columnthree
+                        - columnfour
                        "
 
 
-    let result = LookMLParser.BasicParser.run LookMLParser.LookMLParser.field_parser testString
+    let result = LookMLParser.BasicParser.run LookMLParser.LookMLParser.set_parser testString
 
 //    
 //    let testString = @"    - view: testview
