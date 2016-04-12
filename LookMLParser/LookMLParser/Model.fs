@@ -1,13 +1,7 @@
 ﻿namespace LookMLParser 
 
-module SqlTable = 
+module DataSource = 
     
-    type SqlTable = {
-        name : string
-    }
-
-module DerivedTable = 
-
     type DistributionStyle = 
         | All
         | Even
@@ -17,6 +11,10 @@ module DerivedTable =
         | Minutes
         | Hours
 
+    type SqlTable = {
+        name : string
+    }
+
     type DerivedTable = {
         sql : string;
         persist_for : int * PersistanceTimeUnit;
@@ -25,6 +23,10 @@ module DerivedTable =
         sort_kets : list<string>;
         indexes : list<string>
     }
+
+    type DataSource = 
+        | SqlTable of SqlTable
+        | DerivedTables of DerivedTable
 
 module SetModel = 
 
