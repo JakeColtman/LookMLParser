@@ -18,6 +18,23 @@ module LookMLParser =
     let digit : Parser<char> = anyOf ['0' .. '9']
     let number = many digit
 
+    let row_string_parser row_name key_name = 
+        let p_intro = string_parser row_name
+        (whitespace >>. p_intro >>. colon >>. whitespace >>. string)
+            |>> (fun name -> [[key_name, BasicParser.charListToString name]])
+
+    let row_strings_parsers row_names = 
+        List.map (fun x -> row_string_parser x x) row_names |> choice |> many
+
+    let derived_table_parser = 
+
+        let rowKeys = ["sortkeys" ; "persist_for"; "sql_trigger_value"; "distribution"; "distribution_style"; "indexes"]
+        let p_string_rows = row_strings_parsers rowKeys
+
+        let p_intro = string_parser "derived_table"
+        
+        whitespace >>. p_intro >>. colon >>. p_string_rows
+
     let sql_table_parser = 
         let p_intro = string_parser "sql_table_name"
         
@@ -25,11 +42,6 @@ module LookMLParser =
 
 
     let field_parser =
-
-        let row_string_parser row_name key_name = 
-            let p_intro = string_parser row_name
-            (whitespace >>. p_intro >>. colon >>. whitespace >>. string)
-                |>> (fun name -> [[key_name, BasicParser.charListToString name]])
 
         let p_name = 
             let intro_parser = whitespace >>. dash >>. whitespace
