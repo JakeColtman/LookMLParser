@@ -24,24 +24,24 @@ module Integration =
         
         let persistance = 
             match input.TryFind "persist_for" with 
-            | Some x -> PersistFor (1, Hours)
+            | Some x -> Some (PersistFor (1, Hours))
             | None -> match input.TryFind "sql_trigger_value" with 
-                      | Some x -> SQLTriggerValue x
-                      | None -> SQLTriggerValue "None"
+                      | Some x -> Some (SQLTriggerValue x)
+                      | None -> None
 
         let sortmethod = 
             match input.TryFind "sortkeys" with 
-            | Some x -> SortKeys {keys = x} 
+            | Some x -> Some( SortKeys {keys = x}) 
             | None -> match input.TryFind "sql_trigger_value" with 
-                      | Some x -> Indexes {keys = x} 
-                      | None -> Indexes {keys = "None"} 
+                      | Some x -> Some(Indexes {keys = x}) 
+                      | None -> None
 
         DerivedTable {
             sql = None;
-            persistance = Some persistance;
+            persistance = persistance;
             distribution_key = None;
             distribution_style = None;
-            sort_method = Some sortmethod
+            sort_method = sortmethod
         }
 
     let convert_into_field input_map = 
