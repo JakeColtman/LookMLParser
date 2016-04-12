@@ -4,6 +4,7 @@ module Integration =
     open LookMLParser.FieldModel;
     open LookMLParser.SetModel;
     open LookMLParser.View;
+    open LookMLParser.DataSource;
 
     let (|Found|_|) key map =
       map
