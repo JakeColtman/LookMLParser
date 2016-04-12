@@ -26,6 +26,12 @@ module LookMLParser =
     let row_strings_parser row_names = 
         List.map (fun x -> row_string_parser x x) row_names |> choice
 
+    let parser_to_output_map input = 
+         input |> List.map List.concat
+               |> List.concat
+               |> Map.ofList
+
+
     let derived_table_parser = 
 
         let rowKeys = ["sortkeys" ; "persist_for"; "sql_trigger_value"; "distribution"; "distribution_style"; "indexes"]
@@ -33,7 +39,7 @@ module LookMLParser =
 
         let p_intro = string_parser "derived_table"
         
-        whitespace >>. p_intro >>. colon >>. p_string_rows
+        whitespace >>. p_intro >>. colon >>. p_string_rows |>> parser_to_output_map |>> convert_into_derived_table
 
     let sql_table_parser = 
         let p_intro = string_parser "sql_table_name"
@@ -64,13 +70,8 @@ module LookMLParser =
                    
         let line_parser =  p_name <|> p_sql <|> row_parsers
 
-        let convert_output_into_map input = 
-         input |> List.map List.concat
-               |> List.concat
-               |> Map.ofList
-
         (many line_parser)
-        |>> convert_output_into_map
+        |>> parser_to_output_map
         |>> (fun x -> convert_into_field x)
 
 
@@ -93,4 +94,5 @@ module LookMLParser =
         let intro_parser = string_parser "- view:"
         let viewname_parser = extendedString |>> ( fun char_list -> BasicParser.charListToString char_list)
         let field_separator_parser = string_parser "fields:"
+        let data_source_parser = sql_table_parser // <|> //derived_table_parser
         whitespace >>. intro_parser >>. whitespace >>. viewname_parser .>> whitespace .>>. sql_table_parser .>> whitespace .>> field_separator_parser .>> whitespace .>>. fields_parser .>>. sets_parser
