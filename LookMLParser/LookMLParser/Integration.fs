@@ -20,6 +20,19 @@ module Integration =
                 |> List.map (fun (x, y) -> {Set.name = x; fields = y})
         {Sets.sets = sets}
 
+    let convert_into_derived_table (input: Map<string,string>) = 
+        
+        let persistance = 
+            match input.TryFind "persist_for" with 
+            | Some x -> PersistFor (1, Hours)
+            | None -> match input.TryFind "sql_trigger_value" with 
+                      | Some x -> SQLTriggerValue x
+                      | None -> SQLTriggerValue "None"
+
+        DerivedTable {
+            sql = None;
+            persistance = persistance  
+        }
 
     let convert_into_field input_map = 
 

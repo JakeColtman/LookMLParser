@@ -45,7 +45,7 @@ module DataSource =
 
     type DataSource = 
         | SqlTable of SqlTable
-        | DerivedTables of DerivedTable
+        | DerivedTable of DerivedTable
 
 module SetModel = 
 
