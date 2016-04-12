@@ -27,9 +27,17 @@ module DataSource =
         | SortKeys of SortKeys
         | Indexes of Indexes
 
+    type PersistFor = int * PersistanceTimeUnit
+
+    type SQLTriggerValue = string 
+
+    type Persistance = 
+        | PersistFor of PersistFor
+        | SQLTriggerValue of SQLTriggerValue
+
     type DerivedTable = {
         sql : string;
-        persist_for : int * PersistanceTimeUnit;
+        persistance: Persistance;
         distribution_key : string;
         distribution_style: DistributionStyle;
         sort_method: SortMethod
