@@ -15,13 +15,24 @@ module DataSource =
         name : string
     }
 
+    type SortKeys = {
+        keys : string
+    }
+
+    type Indexes = {
+        keys : string
+    }
+
+    type SortMethod = 
+        | SortKeys of SortKeys
+        | Indexes of Indexes
+
     type DerivedTable = {
         sql : string;
         persist_for : int * PersistanceTimeUnit;
         distribution_key : string;
         distribution_style: DistributionStyle;
-        sort_kets : list<string>;
-        indexes : list<string>
+        sort_method: SortMethod
     }
 
     type DataSource = 
@@ -43,7 +54,7 @@ module View =
 
     type View = {
         name: string;
-        data: DataSource;
+        data: DataSource.DataSource;
         suggestions: bool;
         fields: list<FieldModel.Field>;
         sets: Option<SetModel.Sets>
