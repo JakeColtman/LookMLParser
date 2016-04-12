@@ -5,18 +5,10 @@ open LookMLParser.BasicParser;
 
 [<EntryPoint>]
 let main argv =
-    let testString = @" sets:
-                            testset:
-                            - columnone
-                            - columntwo
-                            - columnthree
-                            - columnfour
-                            testset:
-                            - columnonea
-                            - columntwoa
-                            - columnthreea
-                            - columnfoura
-                       "
+    let testString = @" 
+    derived_table:
+    sql_trigger_value: SELECT trigger_value FROM triggers where view_name = 'view_name'
+    sortkeys: [imakey]"
 
 
     let result = LookMLParser.BasicParser.run LookMLParser.LookMLParser.sets_parser testString
