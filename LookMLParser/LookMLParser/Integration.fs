@@ -28,10 +28,20 @@ module Integration =
             | None -> match input.TryFind "sql_trigger_value" with 
                       | Some x -> SQLTriggerValue x
                       | None -> SQLTriggerValue "None"
+//
+//        let persistance = 
+//            match input.TryFind "persist_for" with 
+//            | Some x -> PersistFor (1, Hours)
+//            | None -> match input.TryFind "sql_trigger_value" with 
+//                      | Some x -> SQLTriggerValue x
+//                      | None -> SQLTriggerValue "None"
 
         DerivedTable {
             sql = None;
-            persistance = persistance  
+            persistance = Some persistance;
+            distribution_key = None;
+            distribution_style = None;
+            sort_method = None
         }
 
     let convert_into_field input_map = 
