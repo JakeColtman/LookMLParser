@@ -36,11 +36,11 @@ module DataSource =
         | SQLTriggerValue of SQLTriggerValue
 
     type DerivedTable = {
-        sql : string;
-        persistance: Persistance;
-        distribution_key : string;
-        distribution_style: DistributionStyle;
-        sort_method: SortMethod
+        sql : Option<string>;
+        persistance: Option<Persistance>;
+        distribution_key : Option<string>;
+        distribution_style: Option<DistributionStyle>;
+        sort_method: Option<SortMethod>
     }
 
     type DataSource = 
