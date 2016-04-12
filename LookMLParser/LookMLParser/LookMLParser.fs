@@ -23,13 +23,13 @@ module LookMLParser =
         (whitespace >>. p_intro >>. colon >>. whitespace >>. string)
             |>> (fun name -> [[key_name, BasicParser.charListToString name]])
 
-    let row_strings_parsers row_names = 
-        List.map (fun x -> row_string_parser x x) row_names |> choice |> many
+    let row_strings_parser row_names = 
+        List.map (fun x -> row_string_parser x x) row_names |> choice
 
     let derived_table_parser = 
 
         let rowKeys = ["sortkeys" ; "persist_for"; "sql_trigger_value"; "distribution"; "distribution_style"; "indexes"]
-        let p_string_rows = row_strings_parsers rowKeys
+        let p_string_rows = row_strings_parser rowKeys |> many
 
         let p_intro = string_parser "derived_table"
         
@@ -53,20 +53,16 @@ module LookMLParser =
             let p_name = string |>> ( fun char_list -> ["name", BasicParser.charListToString char_list])
             (intro_parser >>. p_datatype .>> middle_spacing .>>. p_name) |>> (fun tuple -> [fst tuple ; snd tuple])
 
-        let p_type = row_string_parser "type" "data_type"
-        let p_alias = row_string_parser "alias" "alias"            
-        let p_label = row_string_parser "label" "label"
-        let p_required_fields = row_string_parser "required_fields" "required_fields"
-        let p_drill_fields = row_string_parser "drill_fields" "drill_fields"
-        let p_hidden = row_string_parser "hidden" "hidden"
-        let p_primary_key = row_string_parser "primary_key" "pk"
+        let row_parsers = 
+            ["type" ; "alias"; "label"; "required_fields" ; "drill_fields"; "hidden" ; "primary_key" ]
+            |> row_strings_parser
 
         let p_sql = 
             let p_intro = string_parser "sql"
             let parser = whitespace >>. p_intro .>>. colon .>> whitespace >>. extendedString .>> whitespace
             parser |>> ( fun char_list -> [["sql" , BasicParser.charListToString char_list]])
                    
-        let line_parser =  p_name <|> p_sql <|> p_type <|> p_alias <|> p_label <|> p_required_fields <|> p_drill_fields <|> p_hidden <|> p_primary_key
+        let line_parser =  p_name <|> p_sql <|> row_parsers
 
         let convert_output_into_map input = 
          input |> List.map List.concat
