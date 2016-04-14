@@ -4,7 +4,7 @@ module BlockParser =
     open BasicParser;
     open LookMLParser;
 
-    let endOfLineParser = string_parser "\n\r"
+    let endOfLineParser = string_parser "\r\n"
     let single_whitespace : Parser<char> = anyOf [ ' ' ; '\t' ]
 
     let parser_block (indentationLevel : int)= 
