@@ -2,17 +2,15 @@
 // See the 'F# Tutorial' project for more help.
 
 open LookMLParser.BasicParser;
+open LookMLParser.BlockParser;
 
 [<EntryPoint>]
 let main argv =
-    let testString = @" derived_table:
+    let testString = @"  derived_table: name
   sql_trigger_value: imastring
   sortkeys: imakey"
 
-    let parser = LookMLParser.LookMLParser.single_whitespace
-    let NWhiteSpace = LookMLParser.BasicParser.manyN parser
-    let parserWidth = NWhiteSpace 2
-    let result = LookMLParser.BasicParser.run parserWidth testString
+    let result = run (parser_block 2) testString
 
     printfn "%A" result
     System.Console.ReadKey() |> ignore
