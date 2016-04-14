@@ -148,6 +148,28 @@ module BasicParser =
 
         Parser innerFn
 
+    let rec parseNOf parser n input = 
+        printfn "%A" n
+        match n with 
+            | x when x < 0 -> raise (Exception "Too few input")
+            | x when x = 0 -> ([], input)
+            | _ -> 
+                let result1 = run parser input
+                match result1 with 
+                    | Failure err -> raise (Exception "Failed")
+                    | Success (firstValue, inputAfterFirstValue) ->
+                        printfn "%A" inputAfterFirstValue
+                        let (subsequentValues, remainingInput) = parseNOf parser (n - 1) inputAfterFirstValue
+                        let values = firstValue :: subsequentValues
+                        (values, remainingInput)
+
+    let manyN parser n = 
+        let rec innerFn input = 
+            Success (parseNOf parser n input)
+            
+        Parser innerFn        
+        
+
     let many1 parser = 
         parser  >>= (fun head -> many parser >>= fun tail -> returnP (head::tail))
 

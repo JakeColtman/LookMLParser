@@ -5,13 +5,14 @@ open LookMLParser.BasicParser;
 
 [<EntryPoint>]
 let main argv =
-    let testString = @" 
-    derived_table:
-    sql_trigger_value: imastring
-    sortkeys: imakey"
+    let testString = @" derived_table:
+  sql_trigger_value: imastring
+  sortkeys: imakey"
 
-
-    let result = LookMLParser.BasicParser.run LookMLParser.BlockParser.parser_block testString
+    let parser = LookMLParser.LookMLParser.single_whitespace
+    let NWhiteSpace = LookMLParser.BasicParser.manyN parser
+    let parserWidth = NWhiteSpace 2
+    let result = LookMLParser.BasicParser.run parserWidth testString
 
     printfn "%A" result
     System.Console.ReadKey() |> ignore
