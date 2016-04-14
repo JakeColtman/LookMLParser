@@ -50,11 +50,13 @@
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />
     <Compile Include="FieldModel.fs" />
+    <Compile Include="ModelModel.fs" />
     <Compile Include="Model.fs" />
     <Compile Include="BasicParser.fs" />
     <Compile Include="Learning.fs" />
     <Compile Include="Integration.fs" />
     <Compile Include="LookMLParser.fs" />
+    <Compile Include="BlockParser.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <PropertyGroup>

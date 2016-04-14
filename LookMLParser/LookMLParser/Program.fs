@@ -11,18 +11,8 @@ let main argv =
     sortkeys: imakey"
 
 
-    let result = LookMLParser.BasicParser.run LookMLParser.LookMLParser.derived_table_parser testString
+    let result = LookMLParser.BasicParser.run LookMLParser.BlockParser.parser_block testString
 
-//    
-//    let testString = @"    - view: testview
-//                                 sql_table_name: schema.table_name
-//                                 fields:
-//                                  - measure: currency   type: number sql: ${table}.currency
-//    
-//                       "
-//
-//
-//    let result = LookMLParser.BasicParser.run LookMLParser.LookMLParser.view_parser testString
     printfn "%A" result
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
