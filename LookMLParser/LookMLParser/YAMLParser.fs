@@ -12,17 +12,11 @@ module YAMLParser =
     let single_whitespace : Parser<char> = anyOf [ ' '  ; '\t' ]
     let line_break : Parser<char> = anyOf [ ' '  ; '\n' ; '\r' ; '\t' ]
     let whitespace = many single_whitespace
-
-    type Scalar = string
-
-    type Sequence = string list
-    
-    type Mapping = string list
     
     type Node = 
-        | Scalar of Scalar
-        | Sequence of Sequence
-        | Mapping of Mapping
+        | Scalar of string
+        | Sequence of string list
+        | Mapping of Map<string, Node>
 
     let p_keyValuePair = 
         extendedString .>> colon .>>. extendedString
