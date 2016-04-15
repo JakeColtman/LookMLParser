@@ -21,19 +21,19 @@ module YAMLParser =
         | Mapping of Map<string, string>
 
     let p_keyValuePair = 
-        extendedString .>> colon .>>. extendedString
+        extendedString .>> colon .>> whitespace .>>. extendedString
 
     let p_mapping = 
-        (many p_keyValuePair) |>> (fun x -> Mapping (parser_to_output_map x))
+        (many1 p_keyValuePair) |>> (fun x -> Mapping (parser_to_output_map x))
 
     let p_sequenceEntry = 
-        dash .>> whitespace >>. extendedString
+        whitespace >>. dash .>> whitespace >>. extendedString
 
     let p_sequence = 
-        (many p_sequenceEntry) |>> (fun x -> Sequence(x))
+        (many1 p_sequenceEntry) |>> (fun x -> Sequence(x))
 
     let p_scalar = extendedString |>> (fun x -> Scalar(x))
 
-    let p_node = p_scalar <|> p_mapping <|> p_sequence
+    let p_node = p_sequence <|> p_mapping <|> p_scalar 
         
-        
+    let p_nodes = many p_node
