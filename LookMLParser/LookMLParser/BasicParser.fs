@@ -171,7 +171,7 @@ module BasicParser =
     let rec parseNWithFailureOf parser n input = 
         printfn "%A" n
         match n with 
-            | x when x < 0 -> raise (Exception "Too few indents found")
+            | x when x = 0 -> ([] ,input)
             | _ -> 
                 let result1 = run parser input
                 match result1 with 

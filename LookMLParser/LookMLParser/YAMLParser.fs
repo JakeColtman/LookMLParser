@@ -38,4 +38,4 @@ module YAMLParser =
         let indentation = manyNWithFailure single_whitespace indentation_level 
         (p_sequence indentation) <|> (p_mapping indentation) <|> (p_scalar indentation)
         
-    let p_nodes = many1 (p_node 5)
+    let p_nodes = many1 (p_node 2)
