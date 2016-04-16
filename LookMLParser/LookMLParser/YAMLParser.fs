@@ -23,7 +23,7 @@ module YAMLParser =
 
     let rec p_node indentation_level = 
     
-        let indentation = manyNWithFailure single_whitespace indentation_level 
+        let indentation = manyN single_whitespace indentation_level 
 
         let p_keyValuePair indentation = 
             indentation >>. extendedString .>> colon .>> whitespace .>>. extendedString .>> endOfLineParser
@@ -51,4 +51,4 @@ module YAMLParser =
 
         (p_sequence indentation)  <|> (p_scalar indentation) // <|> (p_mapping indentation)
         
-    let p_nodes: Parser<Node list> = many1 (p_node 2)
+    let p_nodes: Parser<Node list> =  many1 (p_node 2)

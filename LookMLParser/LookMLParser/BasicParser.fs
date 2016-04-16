@@ -5,7 +5,7 @@ module BasicParser =
 
     type Result<'a> = 
     | Success of 'a
-    | Failure of string 
+    | Failure of string
 
     type Parser<'T> = Parser of (string -> Result<'T * string>)
 
@@ -35,7 +35,6 @@ module BasicParser =
             match result1 with
                 | Failure err -> 
                     Failure err
-
                 | Success (value1, remaining1) ->
                     let result2 = run parser2 remaining1
                     match result2 with 
@@ -164,7 +163,10 @@ module BasicParser =
 
     let manyN parser n = 
         let rec innerFn input = 
-            Success (parseNOf parser n input)
+            let result = parseNOf parser n input
+            match result with 
+            | ([], input) -> Failure "Not found"
+            | (_, _) -> Success result
             
         Parser innerFn        
 
