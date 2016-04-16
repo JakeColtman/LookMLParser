@@ -20,20 +20,22 @@ module YAMLParser =
         | Sequence of string list
         | Mapping of Map<string, string>
 
-    let p_keyValuePair = 
-        extendedString .>> colon .>> whitespace .>>. extendedString
+    let p_keyValuePair indentation = 
+        indentation >>. extendedString .>> colon .>> whitespace .>>. extendedString
 
-    let p_mapping = 
-        (many1 p_keyValuePair) |>> (fun x -> Mapping (parser_to_output_map x))
+    let p_mapping indentation = 
+        (many1 (p_keyValuePair indentation)) |>> (fun x -> Mapping (parser_to_output_map x))
 
-    let p_sequenceEntry = 
-        whitespace >>. dash .>> whitespace >>. extendedString
+    let p_sequenceEntry indentation = 
+        indentation >>. dash .>> whitespace >>. extendedString
 
-    let p_sequence = 
-        (many1 p_sequenceEntry) |>> (fun x -> Sequence(x))
+    let p_sequence indentation = 
+        (many1 (p_sequenceEntry indentation)) |>> (fun x -> Sequence(x))
 
-    let p_scalar = extendedString |>> (fun x -> Scalar(x))
+    let p_scalar indentation = indentation >>. extendedString |>> (fun x -> Scalar(x))
 
-    let p_node = p_sequence <|> p_mapping <|> p_scalar 
+    let p_node indentation_level = 
+        let indentation = manyN single_whitespace indentation_level 
+        (p_sequence indentation) //<|> (p_mapping indentation) <|> (p_scalar indentation)
         
-    let p_nodes = many p_node
+    let p_nodes = many1 (p_node 2)
