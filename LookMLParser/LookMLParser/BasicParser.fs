@@ -167,7 +167,28 @@ module BasicParser =
             Success (parseNOf parser n input)
             
         Parser innerFn        
-        
+
+    let rec parseNWithFailureOf parser n input = 
+        printfn "%A" n
+        match n with 
+            | x when x < 0 -> raise (Exception "Too few indents found")
+            | _ -> 
+                let result1 = run parser input
+                match result1 with 
+                    | Failure err -> 
+                        printfn "%A" err
+                        raise (Exception "Too few indents found")
+                    | Success (firstValue, inputAfterFirstValue) ->
+                        printfn "%A" inputAfterFirstValue
+                        let (subsequentValues, remainingInput) = parseNWithFailureOf parser (n - 1) inputAfterFirstValue
+                        let values = firstValue :: subsequentValues
+                        (values, remainingInput)
+
+    let manyNWithFailure parser n = 
+        let rec innerFn input = 
+            Success (parseNWithFailureOf parser n input)
+            
+        Parser innerFn 
 
     let many1 parser = 
         parser  >>= (fun head -> many parser >>= fun tail -> returnP (head::tail))

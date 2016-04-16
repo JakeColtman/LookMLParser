@@ -35,7 +35,7 @@ module YAMLParser =
     let p_scalar indentation = indentation >>. extendedString .>> endOfLineParser |>> (fun x -> Scalar(x))
 
     let p_node indentation_level = 
-        let indentation = manyN single_whitespace indentation_level 
+        let indentation = manyNWithFailure single_whitespace indentation_level 
         (p_sequence indentation) <|> (p_mapping indentation) <|> (p_scalar indentation)
         
-    let p_nodes = many1 (p_node 2)
+    let p_nodes = many1 (p_node 5)
