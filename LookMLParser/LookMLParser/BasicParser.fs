@@ -150,7 +150,7 @@ module BasicParser =
     let rec parseNOf parser n input = 
         printfn "%A" n
         match n with 
-            | x when x <= 0 -> ([], input)
+            | x when x <= 0 -> ([ 'a' ], input)
             | _ -> 
                 let result1 = run parser input
                 match result1 with 
