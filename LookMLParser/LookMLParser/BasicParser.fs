@@ -151,12 +151,11 @@ module BasicParser =
     let rec parseNOf parser n input = 
         printfn "%A" n
         match n with 
-            | x when x < 0 -> raise (Exception "Too few input")
-            | x when x = 0 -> ([], input)
+            | x when x <= 0 -> ([], input)
             | _ -> 
                 let result1 = run parser input
                 match result1 with 
-                    | Failure err -> raise (Exception "Failed")
+                    | Failure err -> ([], input)
                     | Success (firstValue, inputAfterFirstValue) ->
                         printfn "%A" inputAfterFirstValue
                         let (subsequentValues, remainingInput) = parseNOf parser (n - 1) inputAfterFirstValue
