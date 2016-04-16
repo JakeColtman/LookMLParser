@@ -177,6 +177,7 @@ module BasicParser =
                 match result1 with 
                     | Failure err -> 
                         printfn "%A" err
+                        printfn "%A" input
                         raise (Exception "Too few indents found")
                     | Success (firstValue, inputAfterFirstValue) ->
                         printfn "%A" inputAfterFirstValue
