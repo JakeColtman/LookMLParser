@@ -59,9 +59,10 @@
     <Compile Include="FieldModel.fs" />
     <Compile Include="ModelModel.fs" />
     <Compile Include="Model.fs" />
+    <Content Include="packages.config" />
+    <Compile Include="IntegrationLayer.fs" />
     <Compile Include="Integration.fs" />
     <Compile Include="Program.fs" />
-    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Configuration">
