@@ -1,33 +1,28 @@
-﻿// Learn more about F# at http://fsharp.org
-// See the 'F# Tutorial' project for more help.
+﻿open System.IO
+open FSharp.Data
 
-open FsYaml;
-open System.IO;
+open FSharp.Data.JsonExtensions
 
-
-type sets = {sets: string}
+type sets = Map<string, string>
 type fields = {fields: string}
 type derived_table = {derived_table: string}
 type view = {view: string}
 
 type highest_level = 
     | Set of sets
-    | Field of fields
-    | Derived_Table of derived_table
-    | View of view
+    | String
 
-
-type lookml = Map<string, string> list
+type lookml = Map<string, obj> list
 
 [<EntryPoint>]
 let main argv =
 
 
-    let looker_location = @"E:\looker\test.view.lookml"
+    let looker_location = @"E:\looker\testJson.view.lookml"
     
     let string_yaml = File.ReadAllText looker_location
-    let x = Yaml.load<lookml> string_yaml
-
-    printfn "%A" x
+    let x = JsonValue.Parse(string_yaml)
+    
+    printfn "%A" (x?view.AsString())
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code

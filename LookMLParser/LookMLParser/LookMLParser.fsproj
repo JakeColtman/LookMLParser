@@ -68,6 +68,10 @@
       <HintPath>..\packages\FSharp.Configuration.0.4.10\lib\net40\FSharp.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FSharp.Data">
+      <HintPath>..\packages\FSharp.Data.2.3.0\lib\net40\FSharp.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FsYaml">
       <HintPath>..\packages\FsYaml.2.1.0\lib\net45\FsYaml.dll</HintPath>
       <Private>True</Private>
@@ -83,6 +87,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="YamlDotNet">
       <HintPath>..\packages\YamlDotNet.3.9.0\lib\net35\YamlDotNet.dll</HintPath>
       <Private>True</Private>
