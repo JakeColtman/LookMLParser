@@ -18,30 +18,6 @@ module IntegrationLayer =
             | _ -> 
                 None
 
-
-    type DimensionStringy = {
-        data_type: string;        
-    }
-
-    type DimensionGroupStringy = {
-        data_type: string;        
-    }
-
-    type MeasureStringy = {
-        data_type: string;        
-    }
-
-    type FieldStringy = {
-        sql: string option
-    }
-
-    type Viewy = {
-        name: string;
-        data: DerivedTable;
-        fields: Field[] option;
-        sets: Set[] option
-    }
-
     let parse_dimension json_dimension = 
         
         let ttype = 

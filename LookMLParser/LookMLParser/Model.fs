@@ -64,6 +64,6 @@ module View =
         name: string;
         data: DataSource.DataSource;
         suggestions: bool;
-        fields: list<FieldModel.Field>;
-        sets: Option<SetModel.Sets>
+        fields: FieldModel.Field[] option;
+        sets: SetModel.Set[] option
     }
