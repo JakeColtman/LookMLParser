@@ -15,12 +15,23 @@ let main argv =
     let string_yaml = File.ReadAllText looker_location
     let view_json = JsonValue.Parse(string_yaml)
     
-    let view = view_json?view
+    let view_name = view_json?view.AsString()
     let fields = view_json?fields
     let derived_table = view_json?derived_table
     let sets = view_json?sets
 
-    printfn "%A" (parse_fields fields)
+    let parsed_fields = parse_fields fields
+    let parsed_dervied_table = parse_derived_table derived_table
+    let parsed_sets = parse_sets sets
+
+    let viewy = {
+        Viewy.name = view_name;
+        Viewy.sets = parsed_sets;
+        Viewy.data =  parsed_dervied_table;
+        Viewy.fields = parsed_fields;     
+    }
+
+    printfn "%A" viewy
 
 //
 //    let output = parse_derived_table derived_table

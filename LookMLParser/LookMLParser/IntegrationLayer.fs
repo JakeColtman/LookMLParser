@@ -33,6 +33,12 @@ module IntegrationLayer =
         | Measurey of MeasureStringy * FieldStringy
         | DimensionGroup of DimensionGroupDetails * FieldStringy
 
+    type Viewy = {
+        name: string;
+        data: DerivedTable;
+        fields: Fieldy[] option;
+        sets: Set[] option
+    }
 
     let parse_dimension json_dimension = 
         
