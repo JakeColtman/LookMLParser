@@ -1,21 +1,16 @@
 ﻿// Learn more about F# at http://fsharp.org
 // See the 'F# Tutorial' project for more help.
 
-open LookMLParser.BasicParser;
-open LookMLParser.BlockParser;
-open LookMLParser.YAMLParser;
-
+open YamlDotNet.Serialization;
+open YamlDotNet.Serialization.NamingConventions;
+open System.IO;
 
 [<EntryPoint>]
 let main argv =
-    let testString = @"  - dictionary: test
-  - testtwo
-  hello
-  "
-  
+    let looker_location = @"E:\looker\test.view.lookml"
+    
+    let string_yaml = File.ReadAllText looker_location
 
-    let result = run (LookMLParser.BlockParser.parse_line 0) testString
-
-    printfn "%A" result
+    printfn "%A" string_yaml
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
