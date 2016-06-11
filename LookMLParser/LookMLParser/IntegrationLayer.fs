@@ -11,7 +11,10 @@ module IntegrationLayer =
     let try_get_property (json_object:JsonValue) (property:string) = 
         match (json_object.TryGetProperty(property)) with 
             | Some a -> 
-                Some(a.AsString())
+                try
+                    Some (a.AsString())
+                with 
+                    | _ -> None
             | _ -> 
                 None
 
@@ -32,15 +35,10 @@ module IntegrationLayer =
         sql: string option
     }
 
-    type Fieldy = 
-        | Dimensiony of DimensionDetails * FieldDetails
-        | Measurey of MeasureStringy * FieldDetails
-        | DimensionGroupy of DimensionGroupStringy * FieldDetails
-
     type Viewy = {
         name: string;
         data: DerivedTable;
-        fields: Fieldy[] option;
+        fields: Field[] option;
         sets: Set[] option
     }
 
@@ -94,19 +92,60 @@ module IntegrationLayer =
         let ttype = 
             match try_get_property json_measure "type" with 
                 | Some a -> 
-                    a
-                | None -> "string"     
-                
-        {MeasureStringy.data_type = ttype}   
+                    match a with
+                        | "string" -> MeasureDataType.String 
+                        | "date"  -> MeasureDataType.Date
+                        | "number" -> MeasureDataType.Number
+                        | "count" -> MeasureDataType.Count
+                        | "count_distinct"  -> MeasureDataType.CountDistinct
+                        | "sum"  -> MeasureDataType.Sum
+                        | "sum_distinct"  -> MeasureDataType.SumDistinct
+                        | "avg"  -> MeasureDataType.Avg
+                        | "avg_distinct" -> MeasureDataType.AvgDistinct
+                        | "min"  -> MeasureDataType.Min
+                        | "max" -> MeasureDataType.Max
+                        | "list" -> MeasureDataType.List
+                        | "percent_of_previous" -> MeasureDataType.PercentOfPrevious
+                        | "percent_of_total" -> MeasureDataType.PercentOfTotal
+                        | "running_total" -> MeasureDataType.RunningTotal
+                        | _ -> 
+                            printfn "%A" a
+                            MeasureDataType.Sum
+                | None -> MeasureDataType.Sum
+                 
+        {
+            MeasureDetails.data_type = ttype;
+            direction= None;
+            approximate= Some false;
+            approximate_threshold =  None;
+            sql_distinct_key =  try_get_property json_measure "sql_distinct_key";
+            list_field=  try_get_property json_measure "list_field";
+            filters =  try_get_property json_measure "filters"
+        }
+         
 
     let parse_dimension_group json_measure = 
         
         let ttype = 
             match try_get_property json_measure "type" with 
-                | Some a -> a
-                | None -> "time"     
+                | Some a ->
+                    match a with
+                        | "epoch" -> DimensionGroupDataType.Epoch 
+                        | "timestamp"  -> DimensionGroupDataType.TimeStamp
+                        | "datetime" -> DimensionGroupDataType.DateTime
+                        | "date" -> DimensionGroupDataType.Date
+                        | "yyyymmdd"  -> DimensionGroupDataType.YYYYMMDD
+                        | _ -> 
+                            printfn "%A" a
+                            DimensionGroupDataType.DateTime
+                | None -> DimensionGroupDataType.DateTime
                 
-        {DimensionGroupStringy.data_type = ttype}   
+        {
+            DimensionGroupDetails.data_type = ttype;
+            convert_tz = false;
+            primary_key = false;
+            timeframes = None
+        }   
         
 
     let parse_field (field:JsonValue) =
@@ -125,13 +164,13 @@ module IntegrationLayer =
         let details =  
             match try_get_property field "dimension" with 
                 | Some a -> 
-                    Dimensiony ((parse_dimension field) , field_details)
+                    Dimension ((parse_dimension field) , field_details)
                 | _ -> 
                      match try_get_property field "measure" with 
                         | Some a ->  
-                             Measurey ((parse_measure field) , field_details)
+                             Measure ((parse_measure field) , field_details)
                         | _ ->  
-                            DimensionGroupy ((parse_dimension_group field), field_details)
+                             DimensionGroup ((parse_dimension_group field), field_details)
 
         details
 

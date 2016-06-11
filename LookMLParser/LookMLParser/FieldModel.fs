@@ -54,7 +54,7 @@ module FieldModel =
         data_type : DimensionGroupDataType;
         convert_tz : bool;
         primary_key: bool;
-        timeframes : list<string>
+        timeframes : list<string> option
     }
 
     type DimensionDetails = {
@@ -87,12 +87,7 @@ module FieldModel =
         drill_fields: Option<string>
     }
 
-    type FieldType = 
-        | DimensionType
-        | MeasureType
-        | DimensionGroupType
-
     type Field = 
-        | Dimension of FieldType * DimensionDetails * FieldDetails
-        | Measure of FieldType * MeasureDetails * FieldDetails
-        | DimensionGroup of FieldType * DimensionGroupDetails * FieldDetails
+        | Dimension of  DimensionDetails * FieldDetails
+        | Measure of MeasureDetails * FieldDetails
+        | DimensionGroup of DimensionGroupDetails * FieldDetails
