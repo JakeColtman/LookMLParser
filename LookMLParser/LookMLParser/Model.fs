@@ -32,14 +32,14 @@ module DataSource =
     type SQLTriggerValue = string 
 
     type Persistance = 
-        | PersistFor of PersistFor
+        | PersistFor of string
         | SQLTriggerValue of SQLTriggerValue
 
     type DerivedTable = {
         sql : Option<string>;
         persistance: Option<Persistance>;
         distribution_key : Option<string>;
-        distribution_style: Option<DistributionStyle>;
+        distribution_style: DistributionStyle;
         sort_method: Option<SortMethod>
     }
 

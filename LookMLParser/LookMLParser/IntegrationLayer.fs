@@ -186,9 +186,30 @@ module IntegrationLayer =
 
 
     let parse_derived_table json_contents = 
+
+        let persistance = match try_get_property json_contents "persist_for" with 
+            | Some a -> Some(PersistFor a)
+            | None -> 
+                match try_get_property json_contents "sql_trigger_value" with 
+                    | Some a -> Some(SQLTriggerValue a)
+                    | None -> None
+            
+        let distributionStyle = match try_get_property json_contents "distribution_style" with
+            | Some "ALL" -> All
+            | Some "all" -> All
+            | Some "Even" -> Even
+            | Some "EVEN" -> Even
+            | _ -> All
+            
         let sql = json_contents?sql.AsString()
         let sql_trigger_value = json_contents?sql_trigger_value.AsString()
-        {sql = Some(sql); persistance = None; distribution_key = None; distribution_style = None; sort_method = None}
+        {
+            sql = Some(sql); 
+            persistance = persistance; 
+            distribution_key = try_get_property json_contents "distribution_key"; 
+            distribution_style = distributionStyle; 
+            sort_method = None
+        }
 
     let process_set json_set = 
         let name = fst json_set
