@@ -3,14 +3,18 @@
 
 open LookMLParser.BasicParser;
 open LookMLParser.BlockParser;
+open LookMLParser.YAMLParser;
+
 
 [<EntryPoint>]
 let main argv =
-    let testString = @"  derived_table: name
-  sql_trigger_value: imastring
-  sortkeys: imakey"
+    let testString = @"  - dictionary: test
+  - testtwo
+  hello
+  "
+  
 
-    let result = run (parser_block 2) testString
+    let result = run (LookMLParser.BlockParser.parse_line 0) testString
 
     printfn "%A" result
     System.Console.ReadKey() |> ignore

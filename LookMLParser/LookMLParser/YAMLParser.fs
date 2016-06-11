@@ -46,11 +46,12 @@ module YAMLParser =
                             printfn "%A" result
                             Scalar("missing")
                         )
+
         let p_sequence indentation = 
             (many1 (p_sequenceEntry indentation)) |>> (fun x -> Sequence(x))
 
         let p_scalar indentation = indentation >>. extendedString .>> (opt endOfLineParser) |>> (fun x -> Scalar(x))
 
-        (p_sequence indentation)  <|> (p_scalar indentation) <|> (p_mapping indentation)
+        (p_sequence indentation)  <|> (p_mapping indentation) <|> (p_scalar indentation)
         
     let p_nodes: Parser<Node list> =  many1 (p_node 2)
