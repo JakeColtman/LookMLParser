@@ -20,6 +20,10 @@ module IntegrationLayer =
         data_type: string;        
     }
 
+    type DimensionGroupStringy = {
+        data_type: string;        
+    }
+
     type MeasureStringy = {
         data_type: string;        
     }
@@ -31,7 +35,7 @@ module IntegrationLayer =
     type Fieldy = 
         | Dimensiony of DimensionStringy * FieldStringy
         | Measurey of MeasureStringy * FieldStringy
-        | DimensionGroup of DimensionGroupDetails * FieldStringy
+        | DimensionGroupy of DimensionGroupStringy * FieldStringy
 
     type Viewy = {
         name: string;
@@ -59,6 +63,16 @@ module IntegrationLayer =
                 | None -> "string"     
                 
         {MeasureStringy.data_type = ttype}   
+
+    let parse_dimension_group json_measure = 
+        
+        let ttype = 
+            match try_get_property json_measure "type" with 
+                | Some a -> 
+                    a
+                | None -> "time"     
+                
+        {DimensionGroupStringy.data_type = ttype}   
         
 
     let parse_field (field:JsonValue) =
@@ -71,7 +85,11 @@ module IntegrationLayer =
                 | Some a -> 
                     Dimensiony ((parse_dimension field) , field_details)
                 | _ -> 
-                    Measurey ((parse_measure field) , field_details)
+                     match try_get_property field "measure" with 
+                        | Some a ->  
+                             Measurey ((parse_measure field) , field_details)
+                        | _ ->  
+                            DimensionGroupy ((parse_dimension_group field), field_details)
 
         details
 
