@@ -3,7 +3,7 @@ open FSharp.Data
 open FSharp.Data.JsonExtensions
 open LookMLParser.IntegrationLayer
 open LookMLParser.SetModel;
-
+open FsYaml.Yaml
 type lookml = Map<string, obj> list
 
 [<EntryPoint>]
@@ -20,9 +20,13 @@ let main argv =
     let derived_table = view_json?derived_table
     let sets = view_json?sets
 
-    parse_derived_table derived_table
-        |> printfn "%A" 
+    printfn "%A" (parse_fields fields)
 
+//
+//    let output = parse_derived_table derived_table
+//
+//    FsYaml.Yaml.dump output
+//        |> printfn "%A"
 //    let parsed_sets = parse_sets sets
 //    match parsed_sets with 
 //        | Some sets -> 

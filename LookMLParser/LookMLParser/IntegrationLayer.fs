@@ -8,6 +8,76 @@ module IntegrationLayer =
     open FSharp.Data.JsonExtensions;
     open FSharp.Data;
    
+    let try_get_property (json_object:JsonValue) (property:string) = 
+        match (json_object.TryGetProperty(property)) with 
+            | Some a -> 
+                Some(a.AsString())
+            | _ -> 
+                None
+
+
+    type DimensionStringy = {
+        data_type: string;        
+    }
+
+    type MeasureStringy = {
+        data_type: string;        
+    }
+
+    type FieldStringy = {
+        sql: string option
+    }
+
+    type Fieldy = 
+        | Dimensiony of DimensionStringy * FieldStringy
+        | Measurey of MeasureStringy * FieldStringy
+        | DimensionGroup of DimensionGroupDetails * FieldStringy
+
+
+    let parse_dimension json_dimension = 
+        
+        let ttype = 
+            match try_get_property json_dimension "type" with 
+                | Some a -> 
+                    a
+                | None -> "string"     
+                
+        {DimensionStringy.data_type = ttype}   
+
+    let parse_measure json_measure = 
+        
+        let ttype = 
+            match try_get_property json_measure "type" with 
+                | Some a -> 
+                    a
+                | None -> "string"     
+                
+        {MeasureStringy.data_type = ttype}   
+        
+
+    let parse_field (field:JsonValue) =
+
+        let sql = try_get_property field "sql"
+        let field_details = {FieldStringy.sql = sql}
+
+        let details =  
+            match try_get_property field "dimension" with 
+                | Some a -> 
+                    Dimensiony ((parse_dimension field) , field_details)
+                | _ -> 
+                    Measurey ((parse_measure field) , field_details)
+
+        details
+
+
+
+    let parse_fields json_contents = 
+        match json_contents with 
+            | JsonValue.Array fields -> 
+                Some( Array.map parse_field fields)
+            | _ -> None
+
+
 
 
     let parse_derived_table json_contents = 
