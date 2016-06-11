@@ -54,7 +54,7 @@ module FieldModel =
         data_type : DimensionGroupDataType;
         convert_tz : bool;
         primary_key: bool;
-        timeframes : list<string>
+        timeframes : list<string> option
     }
 
     type DimensionDetails = {
@@ -77,22 +77,17 @@ module FieldModel =
     }
 
     type FieldDetails = {
-        sql: string;
+        sql: string option;
         label : Option<string>;
         view_label: Option<string>;
         description: Option<string>;
-        hidden: bool;
+        hidden: string option;
         alias: Option<string>;
         required_fields: Option<string>;
         drill_fields: Option<string>
     }
 
-    type FieldType = 
-        | DimensionType
-        | MeasureType
-        | DimensionGroupType
-
     type Field = 
-        | Dimension of FieldType * DimensionDetails * FieldDetails
-        | Measure of FieldType * MeasureDetails * FieldDetails
-        | DimensionGroup of FieldType * DimensionGroupDetails * FieldDetails
+        | Dimension of  DimensionDetails * FieldDetails
+        | Measure of MeasureDetails * FieldDetails
+        | DimensionGroup of DimensionGroupDetails * FieldDetails
