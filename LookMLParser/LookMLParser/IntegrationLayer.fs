@@ -33,9 +33,9 @@ module IntegrationLayer =
     }
 
     type Fieldy = 
-        | Dimensiony of DimensionStringy * FieldStringy
-        | Measurey of MeasureStringy * FieldStringy
-        | DimensionGroupy of DimensionGroupStringy * FieldStringy
+        | Dimensiony of DimensionStringy * FieldDetails
+        | Measurey of MeasureStringy * FieldDetails
+        | DimensionGroupy of DimensionGroupStringy * FieldDetails
 
     type Viewy = {
         name: string;
@@ -77,8 +77,16 @@ module IntegrationLayer =
 
     let parse_field (field:JsonValue) =
 
-        let sql = try_get_property field "sql"
-        let field_details = {FieldStringy.sql = sql}
+        let field_details = {
+            FieldDetails.sql = try_get_property field "sql";
+            label =  try_get_property field "label";
+            view_label =  try_get_property field "view_label";
+            description =  try_get_property field "description";
+            alias =  try_get_property field "alias";
+            required_fields =  try_get_property field "required_fields";
+            drill_fields =  try_get_property field "drill_fields";
+            hidden =  try_get_property field "hidden";
+        }
 
         let details =  
             match try_get_property field "dimension" with 

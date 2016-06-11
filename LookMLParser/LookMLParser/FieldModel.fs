@@ -77,11 +77,11 @@ module FieldModel =
     }
 
     type FieldDetails = {
-        sql: string;
+        sql: string option;
         label : Option<string>;
         view_label: Option<string>;
         description: Option<string>;
-        hidden: bool;
+        hidden: string option;
         alias: Option<string>;
         required_fields: Option<string>;
         drill_fields: Option<string>
