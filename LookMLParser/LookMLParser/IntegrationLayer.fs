@@ -33,7 +33,7 @@ module IntegrationLayer =
     }
 
     type Fieldy = 
-        | Dimensiony of DimensionStringy * FieldDetails
+        | Dimensiony of DimensionDetails * FieldDetails
         | Measurey of MeasureStringy * FieldDetails
         | DimensionGroupy of DimensionGroupStringy * FieldDetails
 
@@ -49,10 +49,45 @@ module IntegrationLayer =
         let ttype = 
             match try_get_property json_dimension "type" with 
                 | Some a -> 
-                    a
-                | None -> "string"     
+                    match a with
+                        | "string" -> DimensionDataType.String
+                        | "number" -> DimensionDataType.Number
+                        | "int" -> DimensionDataType.Number
+                        | "yesno" -> YesNo
+                        | "time" -> Time
+                        | "tier" -> Tier
+                        | "location" -> Location
+                        | "zipcode" -> ZipCode
+                        | _ -> 
+                            printfn "%A" a
+                            DimensionDataType.String
+                | None -> DimensionDataType.String
                 
-        {DimensionStringy.data_type = ttype}   
+        let hidden = 
+            match try_get_property json_dimension "hidden" with 
+                | Some a -> true
+                | None -> false
+
+        let primary_key = 
+            match try_get_property json_dimension "primary_key" with 
+                | Some a -> true
+                | None -> false
+
+        let suggestable = 
+            match try_get_property json_dimension "suggestable" with 
+                | Some a -> true
+                | None -> false
+
+        {
+            DimensionDetails.data_type = ttype;
+            primary_key= primary_key;
+            alpha_sort= false;
+            tiers =None;
+            style = None;
+            suggestable= suggestable
+        }
+
+
 
     let parse_measure json_measure = 
         
@@ -68,8 +103,7 @@ module IntegrationLayer =
         
         let ttype = 
             match try_get_property json_measure "type" with 
-                | Some a -> 
-                    a
+                | Some a -> a
                 | None -> "time"     
                 
         {DimensionGroupStringy.data_type = ttype}   
