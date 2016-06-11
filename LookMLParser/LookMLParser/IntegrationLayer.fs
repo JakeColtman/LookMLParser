@@ -77,7 +77,9 @@ module IntegrationLayer =
                         | "sum"  -> MeasureDataType.Sum
                         | "sum_distinct"  -> MeasureDataType.SumDistinct
                         | "avg"  -> MeasureDataType.Avg
+                        | "average"  -> MeasureDataType.Avg
                         | "avg_distinct" -> MeasureDataType.AvgDistinct
+                        | "average_distinct"  -> MeasureDataType.AvgDistinct
                         | "min"  -> MeasureDataType.Min
                         | "max" -> MeasureDataType.Max
                         | "list" -> MeasureDataType.List
@@ -111,6 +113,7 @@ module IntegrationLayer =
                         | "datetime" -> DimensionGroupDataType.DateTime
                         | "date" -> DimensionGroupDataType.Date
                         | "yyyymmdd"  -> DimensionGroupDataType.YYYYMMDD
+                        | "time"  -> DimensionGroupDataType.DateTime
                         | _ -> 
                             printfn "%A" a
                             DimensionGroupDataType.DateTime
