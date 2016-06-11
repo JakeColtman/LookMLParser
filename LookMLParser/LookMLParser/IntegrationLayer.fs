@@ -9,6 +9,12 @@ module IntegrationLayer =
     open FSharp.Data;
    
 
+
+    let parse_derived_table json_contents = 
+        let sql = json_contents?sql.AsString()
+        let sql_trigger_value = json_contents?sql_trigger_value.AsString()
+        {sql = Some(sql); persistance = None; distribution_key = None; distribution_style = None; sort_method = None}
+
     let process_set json_set = 
         let name = fst json_set
         let entries = snd json_set
