@@ -3,9 +3,6 @@ import json
 from copy import copy
 import sqlparse
 
-os.chdir("E:\looker")
-with open("testJson.view.lookml", "r") as json_file:
-    view = json.load(json_file)
 
 def field_type(field):
     if "dimension" in field:
@@ -107,6 +104,3 @@ def print_from_json(json):
     fields = print_fields(json["fields"])
     sets = print_sets(json["sets"])
     return base_view.format(view, derived_table, fields, sets)
-
-with open("E:/looker/aatest.yaml", "w") as output_file:
-    output_file.write(print_from_json(view))
