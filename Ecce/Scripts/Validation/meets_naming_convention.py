@@ -26,7 +26,7 @@ def all_fields_obey_naming_convention(view):
 
     exposed_fields = [x for x in fields if not is_hidden(x)]
 
-    for field in fields:
+    for field in exposed_fields:
         if "type" in field and field["type"] in patterns:
 
             if is_percentage(field):
