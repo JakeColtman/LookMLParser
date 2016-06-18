@@ -1,0 +1,40 @@
+import re
+from ..Helper.SQL import SQL
+
+
+def columns_needed_in_pdt_sql(fields):
+    columns_needed = []
+    for field in fields:
+        try:
+            field_sql = field["sql"]
+            columns = re.findall(r"\${TABLE}\.([a-zA-Z_0-9]*)", field_sql)
+            columns_needed += columns
+        except KeyError:
+            pass
+    return columns_needed
+
+
+def columns_in_sql(sql_text):
+    sql_parsed = SQL(sql_text)
+    if sql_parsed.columns is None or len(sql_parsed.columns) == 0:
+        return True
+    return [x.lower() for x in sql_parsed.columns]
+
+
+def all_fields_exist_in_sql(view):
+    try:
+        sql = view["derived_table"]["sql"]
+    except KeyError:
+        return True
+
+    if "fields" not in view or view["fields"] is None:
+        return True
+
+    fields = view["fields"]
+
+    needed_columns = columns_needed_in_pdt_sql(fields)
+    needed_columns = [x.lower() for x in needed_columns]
+    actual_columns = columns_in_sql(sql)
+
+    problems = [x for x in needed_columns if x not in actual_columns]
+    return len(problems) == 0
