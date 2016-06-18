@@ -18,7 +18,8 @@ def columns_in_sql(sql_text):
     sql_parsed = SQL(sql_text)
     if sql_parsed.columns is None or len(sql_parsed.columns) == 0:
         return True
-    return [x.lower() for x in sql_parsed.columns]
+    print(sql_parsed.columns)
+    return [x.lower() for x in sql_parsed.columns if x is not None]
 
 
 def all_fields_exist_in_sql(view):
@@ -37,4 +38,6 @@ def all_fields_exist_in_sql(view):
     actual_columns = columns_in_sql(sql)
 
     problems = [x for x in needed_columns if x not in actual_columns]
+    if len(problems) != 0:
+        print(problems)
     return len(problems) == 0
