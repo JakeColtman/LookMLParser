@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="80e2301a-dfbc-4b75-82e2-5425f1288cf9" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ecce/Scripts/Helper/Field.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ecce/Scripts/Helper/Sets.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ecce/Scripts/Helper/View.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ecce/Scripts/Helper/Field.py" afterPath="$PROJECT_DIR$/Ecce/Scripts/Helper/Field.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ecce/Scripts/Helper/Sets.py" afterPath="$PROJECT_DIR$/Ecce/Scripts/Helper/Sets.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ecce/Scripts/Processing/remove_bad_set_points.py" afterPath="$PROJECT_DIR$/Ecce/Scripts/Processing/remove_bad_set_points.py" />
     </list>
     <ignored path="LookMLParser.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,12 +49,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="remove_bad_set_points.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="remove_bad_set_points.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Processing/remove_bad_set_points.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.27419356">
+              <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="View.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Helper/View.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+              <folding>
+                <marker date="1466192940988" expanded="true" signature="29:106" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -91,17 +105,17 @@
         <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Helper/Field.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+              <caret line="9" column="26" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="26" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sets.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Sets.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Helper/Sets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1218638">
-              <caret line="4" column="34" selection-start-line="4" selection-start-column="34" selection-end-line="4" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="9" column="17" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -124,12 +138,13 @@
       <list>
         <option value="$PROJECT_DIR$/Ecce/json_to_lookml.py" />
         <option value="$PROJECT_DIR$/Ecce/deploy.py" />
-        <option value="$PROJECT_DIR$/Ecce/Scripts/Processing/remove_bad_set_points.py" />
         <option value="$PROJECT_DIR$/Ecce/Scripts/Validation/meets_naming_convention.py" />
         <option value="$PROJECT_DIR$/Ecce/Scripts/Validation/all_fields_exist_in_sql.py" />
         <option value="$PROJECT_DIR$/Ecce/Scripts/Validation/no_select_alls_in_sql_query.py" />
-        <option value="$PROJECT_DIR$/Ecce/Scripts/Helper/Field.py" />
+        <option value="$PROJECT_DIR$/Ecce/Scripts/Helper/View.py" />
         <option value="$PROJECT_DIR$/Ecce/Scripts/Helper/Sets.py" />
+        <option value="$PROJECT_DIR$/Ecce/Scripts/Helper/Field.py" />
+        <option value="$PROJECT_DIR$/Ecce/Scripts/Processing/remove_bad_set_points.py" />
       </list>
     </option>
   </component>
@@ -226,6 +241,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Validation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LookMLParser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LookMLParser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ecce" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Processing" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -436,23 +477,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Processing/remove_bad_set_points.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Validation/meets_naming_convention.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Validation/all_fields_exist_in_sql.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -476,18 +501,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Helper/Field.py">
+    <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Validation/all_fields_exist_in_sql.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Helper/View.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding>
+            <marker date="1466192940988" expanded="true" signature="29:106" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Helper/Sets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1218638">
-          <caret line="4" column="34" selection-start-line="4" selection-start-column="34" selection-end-line="4" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Helper/Field.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="26" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ecce/Scripts/Processing/remove_bad_set_points.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27419356">
+          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
           <folding />
         </state>
       </provider>
