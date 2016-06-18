@@ -1,0 +1,20 @@
+06-18 10:41 BuildLog     INFO     Starting Checks
+06-18 10:41 BuildLog     INFO     Using only_errors config setup
+06-18 10:41 BuildLog     INFO     All fields found in SQL
+06-18 10:41 BuildLog     INFO     All fields found in SQL
+06-18 10:41 BuildLog     INFO     Validation Finished
+06-18 10:41 BuildLog     INFO     Removing name from minimal
+06-18 10:41 BuildLog     INFO     Removing oecd from minimal
+06-18 10:41 BuildLog     INFO     Removing companynumber from minimal
+06-18 10:41 BuildLog     INFO     Removing discriminator from minimal
+06-18 10:41 BuildLog     INFO     Removing count_debtors from minimal
+06-18 10:41 BuildLog     INFO     Removing revenuestiers from minimal
+06-18 10:41 BuildLog     INFO     Removing is_government_entity from minimal
+06-18 10:41 BuildLog     INFO     Removing sic_description from minimal
+06-18 10:41 BuildLog     INFO     Removing sic_group from minimal
+06-18 10:41 BuildLog     INFO     Removing delphi_score_date from minimal
+06-18 10:41 BuildLog     INFO     Removing average_delphi_score from minimal
+06-18 10:41 BuildLog     INFO     Removing name from detail
+06-18 10:41 BuildLog     INFO     Removing oecd from detail
+06-18 10:41 BuildLog     INFO     Removing companynumber from detail
+06-18 10:41 BuildLog     INFO     Processing Finished

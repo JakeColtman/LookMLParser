@@ -1,5 +1,6 @@
 import re
 from ..Helper.Field import extract_label, is_hidden
+import logging
 
 patterns = {
     "yesno" : r"^(is|has|was) ",
@@ -42,8 +43,11 @@ def all_fields_obey_naming_convention(view):
             if len(results) == 0:
                 problems.append(name)
 
+    logs = logging.getLogger("BuildLog")
+
     if problems != []:
-        print("Naming convention errors")
-        print(problems)
+        logs.warning("Found naming convention errors")
+        logs.warning(problems)
         return False
+    logs.info("No naming convention errors found")
     return True

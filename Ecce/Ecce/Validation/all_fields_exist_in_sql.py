@@ -1,6 +1,6 @@
 import re
 from ..Helper.SQL import SQL
-
+import logging
 
 def columns_needed_in_pdt_sql(fields):
     columns_needed = []
@@ -38,6 +38,11 @@ def all_fields_exist_in_sql(view):
     actual_columns = columns_in_sql(sql)
 
     problems = [x for x in needed_columns if x not in actual_columns]
+
+    logs = logging.getLogger("BuildLog")
     if len(problems) != 0:
-        print(problems)
+        logs.warning("Found fields that don't exist in SQL")
+        logs.warning(problems)
+        return False
+    logs.info("All fields found in SQL")
     return len(problems) == 0
