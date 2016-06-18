@@ -6,25 +6,37 @@ from Ecce.Processing.remove_bad_set_points import remove_set_elements_that_have_
 configs = {
 
     "strictest": {
-        "validation": [
-            all_fields_exist_in_sql,
-            all_fields_obey_naming_convention,
-            no_select_all
-        ],
-        "processing": [
-            remove_set_elements_that_have_no_views
-        ]
-
+        "validation":
+            {
+                "error":
+                    [
+                        all_fields_exist_in_sql,
+                        all_fields_obey_naming_convention,
+                        no_select_all
+                    ],
+                "warning": []
+            },
+        "processing":
+            [
+                remove_set_elements_that_have_no_views
+            ]
     },
-
     "only_errors": {
-        "validation": [
-            all_fields_exist_in_sql
-        ],
-        "processing": [
-        ]
-
+        "validation":
+            {
+                "error":
+                    [
+                        all_fields_exist_in_sql
+                    ],
+                "warning":
+                    [
+                        all_fields_obey_naming_convention,
+                        no_select_all
+                    ],
+            },
+        "processing":
+            [
+                remove_set_elements_that_have_no_views
+            ]
     }
-
-
 }

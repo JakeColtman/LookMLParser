@@ -12,9 +12,13 @@ view = load_from_yaml("E:/looker/seller_debtors.view.lookml")
 config = configs["only_errors"]
 validating_functions, post_processing_functions = config["validation"], config["processing"]
 
-for validating_function in validating_functions:
-    if not validating_function(view):
+for strict_validation in validating_functions["error"]:
+    if not strict_validation(view):
         raise Exception("Validation error")
+
+for warning_validation in validating_functions["error"]:
+    if not warning_validation(view):
+        print("WARNING!!")
 
 for processing in post_processing_functions:
     view = processing(view)
